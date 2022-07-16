@@ -18,6 +18,10 @@ function App() {
           Learn React
         </a>
       </header>
+      <footer className="App-footer">
+        <p>Powered by:</p>
+        <p>© 2022 | Chase Gomez</p>
+      </footer>
     </div>
   );
 }
