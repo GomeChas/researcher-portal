@@ -1,25 +1,24 @@
 import './App.css';
 import logo from './logo.svg';
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import ResearchersPage from "./pages/ResearchersPage";
-import ChimerasPage from "./pages/ChimerasPage";
-import GenesPage from "./pages/GenesPage";
-import VectorsPage from "./pages/VectorsPage";
-import AntiBacterialsPage from "./pages/AntiBacterialsPage"
+// import React, { useState } from "react";
+// import { BrowserRouter as Router, Route } from "react-router-dom";
+// import HomePage from "./pages/HomePage";
+// import ResearchersPage from "./pages/ResearchersPage";
+// import ChimerasPage from "./pages/ChimerasPage";
+// import GenesPage from "./pages/GenesPage";
+// import VectorsPage from "./pages/VectorsPage";
+// import AntiBacterialsPage from "./pages/AntiBacterialsPage"
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} alt="react logo" width="90px"></img>
         <h1>Welcome to MyT Codon</h1>
       <p>DESCRIPTION</p>
       </header>
     <div className="App-body">
-      <Router>
-        <Navigation />
+      <h3>Just a test</h3>
+      {/* <Router> 
         <Route path="/" exact>
           <HomePage/>
         </Route>
@@ -38,7 +37,7 @@ function App() {
         <Route path="/antibacterials">
           <AntiBacterialsPage/>
         </Route>
-      </Router>
+      </Router>*/}
     </div>
     <footer className="App-footer">
     <p>Powered by:</p>
