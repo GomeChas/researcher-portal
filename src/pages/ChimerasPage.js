@@ -2,18 +2,16 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-function HomePage() {
+function ChimerasPage() {
     return (
     <div>
         <table>
             <thead>
                 <tr>
-                    <th>Project Staff</th>
-                    <th>Creation Date</th>
-                    <th>Transfection Complete</th>
-                    <th>Completion Date</th>
-                    <th>Storage Freezer</th>
-                    <th>Freezer Box Location</th>
+                    <th>Mitochondrial Gene</th>
+                    <th>Vector Used</th>
+                    <th>Provider Name</th>
+                    <th>Disease/Phenotype</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,4 +22,4 @@ function HomePage() {
 );
 }
 
-export default HomePage;
+export default ChimerasPage;

@@ -2,18 +2,15 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-function HomePage() {
+function RsearchersPage() {
     return (
     <div>
         <table>
             <thead>
                 <tr>
-                    <th>Project Staff</th>
-                    <th>Creation Date</th>
-                    <th>Transfection Complete</th>
-                    <th>Completion Date</th>
-                    <th>Storage Freezer</th>
-                    <th>Freezer Box Location</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Active Credential</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,4 +21,4 @@ function HomePage() {
 );
 }
 
-export default HomePage;
+export default ResearchersPage;
