@@ -9,6 +9,7 @@
     <header>
         <nav class="menu">
             <ul>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="researchers.html">Researchers</a></li>
                 <li><a href="genes.html">Genes</a></li>
                 <li><a href="vectors.html">Vectors</a></li>
@@ -29,26 +30,54 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Jonah</td>
-                        <td>Tang</td>
-                        <td>Jonah</td>
+                        <td>Nelson</td>
+                        <td>Morales</td>
+                        <td>TRUE</td>
+                    </tr>
+                    <tr>
+                        <td>Ted</td>
+                        <td>Terry</td>
+                        <td>TRUE</td>
+                    </tr>
+                    <tr>
+                        <td>Jamie</td>
+                        <td>Garrett</td>
+                        <td>TRUE</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <form action="/add_researcher" method="GET" id="new_researcher">  
-            <legend>Add new researcher:</legend>
-            <p>
-                <label for="new_researcher">Select a stock for purchase</label>
-                Add reasearcher
-            </p>
-            <p>
-                <button type="submit" form="new_researcher" value="Submit">Submit</button>
-            </p>
+        <form action="" method="get">
+            <section>
+                <label for="f_name">First Name:</label>
+
+                <input type="text" id="f_name" name="f_name" required
+        minlength="2" maxlength="50" size="10">
+            </section>
+            <section>
+                <label for="l_name">Last Name:</label>
+
+                <input type="text" id="l_name" name="l_name" required
+        minlength="2" maxlength="50" size="10">
+            </section>
+            <section>
+                <fieldset>
+                    <legend>Does the researcher have an acive credential?</legend>
+                
+                    <div>
+                    <input type="radio" id="yes" name="credential" value=TRUE
+                            checked>
+                    <label for="yes">Yes</label>
+                    </div>
+                
+                    <div>
+                    <input type="radio" id="no" name="credential" value=FALSE>
+                    <label for="no">No</label>
+                    </div>
+            </section>
+            <div>
+                <input type="submit" value="Add new researcher">
+            </div>
         </form>
-    </section>
-        <section>
-            <p><a href="/">Let's go back home.</a></p>
-        </section>
     </body>
 </html>

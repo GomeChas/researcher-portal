@@ -9,6 +9,7 @@
     <header>
         <nav class="menu">
             <ul>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="researchers.html">Researchers</a></li>
                 <li><a href="genes.html">Genes</a></li>
                 <li><a href="vectors.html">Vectors</a></li>
@@ -29,12 +30,60 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- fill with data  -->
+                    <tr>
+                        <td>MT-ATP6</td>
+                        <td>pHSG 396 DNA</td>
+                        <td>Kaiser Permanente</td>
+                        <td>Mt-atp6-related Mitochondrial Spastic Paraplegia</td>
+                    </tr>
+                    <tr>
+                        <td>MT-ND5</td>
+                        <td>PSF-CMV-KAN</td>
+                        <td>Provider Inc.</td>
+                        <td>MtDNA-Associated Leigh Syndrome (subacute necrotizing encephalomyelopathy)</td>
+                    </tr>
+                    <tr>
+                        <td>MT-TL1</td>
+                        <td>PSF-CAG-KAN</td>
+                        <td>Very Good Pharmaceuticals</td>
+                        <td>Mitochondrial encephalomyopathy, lactic acidosis, and stroke-like episodes</td>
+                    </tr>
                 </tbody>
             </table>
+            <form action="" method="get">
+                <section>
+                    <label for="gene_select">Select a gene:</label>
+                    <select name="gene" id="gene_select">
+                        <option value="">--Please choose an option--</option>
+                        <option value="MT-ATP6">MT-ATP6</option>
+                        <option value="MT-ND5">MT-ND5</option>
+                        <option value="MT-TL1">MT-TL1</option>
+                    </select>
+                </section>
+                <section>
+                    <label for="vector_select">Select a vector:</label>
+                    <select name="vector" id="vector_select">
+                        <option value="">--Please choose an option--</option>
+                        <option value="pHSG 396 DNA">pHSG 396 DNA</option>
+                        <option value="PSF-CMV-KAN">PSF-CMV-KAN</option>
+                        <option value="PSF-CAG-KAN">PSF-CAG-KAN</option>
+                    </select>
+                </section>
+                <section>
+                    <label for="provider_name">Provider Name:</label>
+                    <input type="text" id="provider_name" name="provider_name" required
+            minlength="5" maxlength="100" size="10">
+                </section>
+                <section>
+                    <label for="disease_name">Disease Name:</label>
+                    <textarea id="disease_name" name="disease_name"
+                        rows="4" cols="33">Provide a disease name or patient phenotype
+                    </textarea>
+                </section>
+                <div>
+                    <input type="submit" value="Add new chimera">
+                </div>
+            </form>
         </div>
-        <section>
-            <p><a href="/">Let's go back home.</a></p>
-        </section>
     </body>
 </html>

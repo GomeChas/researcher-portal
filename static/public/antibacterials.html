@@ -9,6 +9,7 @@
     <header>
         <nav class="menu">
             <ul>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="researchers.html">Researchers</a></li>
                 <li><a href="genes.html">Genes</a></li>
                 <li><a href="vectors.html">Vectors</a></li>
@@ -28,15 +29,22 @@
                 <tbody>
                     <tr>
                         <td>Kanamycin</td>
-                    </tr>>
+                    </tr>
                     <tr>
                         <td>Chloramphenicol</td>
-                    </tr>>
+                    </tr>
                 </tbody>
             </table>
         </div>
-        <section>
-            <p><a href="/">Let's go back home.</a></p>
-        </section>
+        <form action="" method="get">
+            <section>
+                <label for="antiBac">AntiBacterial:</label>
+                <input type="text" id="antiBac" name="antiBac" required
+                    minlength="2" maxlength="50" size="10">
+            </section>
+            <div>
+                <input type="submit" value="Add AntiBacterial">
+            </div>
+        </form>
     </body>
 </html>

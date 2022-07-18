@@ -9,6 +9,7 @@
     <header>
         <nav class="menu">
             <ul>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="researchers.html">Researchers</a></li>
                 <li><a href="genes.html">Genes</a></li>
                 <li><a href="vectors.html">Vectors</a></li>
@@ -22,19 +23,68 @@
             <table>
                 <thead>
                     <tr>
-                        <th>HGNC Symbol</th>
                         <th>HGNC ID</th>
+                        <th>HGNC Symbol</th>
                         <th>HGNC Name</th>
                         <th>NCBI ID</th>
                         <th>UniProt ID</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td>7414</td>
+                        <td>MT-ATP6</td>
+                        <td>Mitochondrially encoded ATP synthase membrane subunit 6</td>
+                        <td>4508</td>
+                        <td>P00846</td>
+                    </tr>
+                    <tr>
+                        <td>7462</td>
+                        <td>MT-ND5</td>
+                        <td>Mitochondrially encoded NADH:ubiquinone oxidoreductase core subunit 5</td>
+                        <td>4540</td>
+                        <td>P03915</td>
+                    </tr>
+                    <tr>
+                        <td>7490</td>
+                        <td>MT-TL1</td>
+                        <td>Mitochondrially encoded tRNA-Leu (UUA/G) 1</td>
+                        <td>4567</td>
+                        <td>NULL</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
-        <section>
-            <p><a href="/">Let's go back home.</a></p>
-        </section>
+        <form action="" method="get">
+            <section>
+                <label for="hgnc_id">HGNC ID:</label>
+                <input type="number" id="hgnc_id" name="hgnc_id"
+                    min="100" max="10000">
+            </section>
+            <section>
+                <label for="hgnc_symbol">HGNC Symbol:</label>
+                <input type="text" id="hgnc_symbol" name="hgnc_symbol" required
+                    minlength="2" maxlength="50" size="10">
+            </section>
+            <section>
+                <label for="hgnc_name">HGNC Name:</label>
+                <textarea id="hgnc_name" name="hgnc_name"
+                    rows="4" cols="33">Provide full gene name
+                </textarea>
+            </section>
+            <section>
+                <label for="ncbi_id">NCBI ID:</label>
+                <input type="number" id="ncbi_id" name="ncbi_id"
+                    min="100" max="10000">
+            </section>
+            <section>
+                <label for="uniprot_id">UniProt ID:</label>
+                <input type="text" id="uniprot_id" name="uniprot_id" required
+                    minlength="2" maxlength="50" size="10">
+            </section>
+            <div>
+                <input type="submit" value="Add new gene">
+            </div>
+        </form>
     </body>
 </html>
