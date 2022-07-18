@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-function RsearchersPage() {
+function ResearchersPage() {
     return (
     <div>
         <table>

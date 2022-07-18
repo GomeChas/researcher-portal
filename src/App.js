@@ -1,13 +1,13 @@
 import './App.css';
 import logo from './logo.svg';
 // import React, { useState } from "react";
-// import { BrowserRouter as Router, Route } from "react-router-dom";
-// import HomePage from "./pages/HomePage";
-// import ResearchersPage from "./pages/ResearchersPage";
-// import ChimerasPage from "./pages/ChimerasPage";
-// import GenesPage from "./pages/GenesPage";
-// import VectorsPage from "./pages/VectorsPage";
-// import AntiBacterialsPage from "./pages/AntiBacterialsPage"
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import ResearchersPage from "./pages/ResearchersPage";
+import ChimerasPage from "./pages/ChimerasPage";
+import GenesPage from "./pages/GenesPage";
+import VectorsPage from "./pages/VectorsPage";
+import AntiBacterialsPage from "./pages/AntiBacterialsPage"
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
       </header>
     <div className="App-body">
       <h3>Just a test</h3>
-      {/* <Router> 
+      <Router> 
         <Route path="/" exact>
           <HomePage/>
         </Route>
@@ -37,7 +37,7 @@ function App() {
         <Route path="/antibacterials">
           <AntiBacterialsPage/>
         </Route>
-      </Router>*/}
+      </Router>
     </div>
     <footer className="App-footer">
     <p>Powered by:</p>
