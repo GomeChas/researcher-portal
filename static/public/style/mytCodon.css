@@ -2,14 +2,21 @@ header {
 	margin:2;
 	padding:2;
 }
+
+h2 {
+	color:black
+}
+
 body {
     background-color: lightslategray;
 	grid-template: auto 1fr auto / auto 1fr auto;
 }
+
 main {
 	color: whitesmoke;
 	font-style: bold;
 }
+
 table { 
     background: whitesmoke;
     border: 3px solid black;
@@ -17,6 +24,7 @@ table {
 th, td { 
     border: 2px solid #61dafb;
 }
+
 nav {
 	margin:0;
 	padding:0;
