@@ -6,6 +6,10 @@ body {
     background-color: lightslategray;
 	grid-template: auto 1fr auto / auto 1fr auto;
 }
+main {
+	color: whitesmoke;
+	font-style: bold;
+}
 table { 
     background: whitesmoke;
     border: 3px solid black;
