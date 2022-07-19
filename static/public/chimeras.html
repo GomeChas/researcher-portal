@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lnag="en">
+    
     <head>
     <meta charset="utf-8">
-    <title>MyT Codon Projects</title>
+    <title>MyT Codon Researcher Portal</title>
     <link href="style/mytCodon.css" rel="stylesheet" type="text/css" />
     </head>
 
@@ -10,10 +11,11 @@
         <nav class="menu">
             <ul>
                 <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
                 <li><a href="researchers.html">Researchers</a></li>
+                <li><a href="chimeras.html">Chimeras</a></li>
                 <li><a href="genes.html">Genes</a></li>
                 <li><a href="vectors.html">Vectors</a></li>
-                <li><a href="chimeras.html">Chimeras</a></li>
                 <li><a href="antibacterials.html">AntiBacterials</a></li>
             </ul>
         </nav>
@@ -51,35 +53,49 @@
                 </tbody>
             </table>
             <form action="" method="get">
-                <section>
-                    <label for="gene_select">Select a gene:</label>
-                    <select name="gene" id="gene_select">
-                        <option value="">--Please choose an option--</option>
-                        <option value="MT-ATP6">MT-ATP6</option>
-                        <option value="MT-ND5">MT-ND5</option>
-                        <option value="MT-TL1">MT-TL1</option>
+                <fieldset>
+                    <legend>Lab Notebook Details</legend>
+                    <label for="labNotebook">Select Lab Notebook:</label>
+                    <select name="labNotebook" id="labNotebook">
+                        <option value=""></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
                     </select>
-                </section>
-                <section>
-                    <label for="vector_select">Select a vector:</label>
-                    <select name="vector" id="vector_select">
-                        <option value="">--Please choose an option--</option>
-                        <option value="pHSG 396 DNA">pHSG 396 DNA</option>
-                        <option value="PSF-CMV-KAN">PSF-CMV-KAN</option>
-                        <option value="PSF-CAG-KAN">PSF-CAG-KAN</option>
-                    </select>
-                </section>
-                <section>
-                    <label for="provider_name">Provider Name:</label>
-                    <input type="text" id="provider_name" name="provider_name" required
-            minlength="5" maxlength="100" size="10">
-                </section>
-                <section>
-                    <label for="disease_name">Disease Name:</label>
-                    <textarea id="disease_name" name="disease_name"
-                        rows="4" cols="33">Provide a disease name or patient phenotype
-                    </textarea>
-                </section>
+                </fieldset>
+                <fieldset>
+                    <legend>Chimera Details</legend>
+                    <div>
+                        <label for="mitogene">Select MitoGene:</label>
+                        <select name="mitogene" id="mitogene">
+                            <option value=""></option>
+                            <option value="MT-ATP6">MT-ATP6</option>
+                            <option value="MT-ND5">MT-ND5</option>
+                            <option value="MT-TL1">MT-TL1</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="vector">Select Vector:</label>
+                        <select name="vector" id="vector">
+                            <option value=""></option>
+                            <option value="pHSG398DNA">pHSG 398 DNA</option>
+                            <option value="pHSG396DNA">pHSG 396 DNA</option>
+                            <option value="PSF-CMV-KAN">PSF-CMV-KAN</option>
+                            <option value="PSF-CAG-KAN">PSF-CAG-KAN</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="providerName">Provider Name:</label>
+                        <input type="text" id="providerName" name="providerName"
+                            minlength="1" maxlength="100" size="10"> 
+                    </div>
+                    <div>
+                        <label for="diseaseName">Disease Name:</label>
+                        <input type="text" id="diseaseName" name="diseaseName"
+                            minlength="1" maxlength="255" size="10"> 
+                    </div>
+                </fieldset>
                 <div>
                     <input type="submit" value="Add new chimera">
                 </div>

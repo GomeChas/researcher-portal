@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lnag="en">
+    
+    <head>
+    <meta charset="utf-8">
+    <title>MyT Codon Researcher Portal</title>
+    <link href="style/mytCodon.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <header>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="researchers.html">Researchers</a></li>
+                <li><a href="chimeras.html">Chimeras</a></li>
+                <li><a href="genes.html">Genes</a></li>
+                <li><a href="vectors.html">Vectors</a></li>
+                <li><a href="antibacterials.html">AntiBacterials</a></li>
+            </ul>
+        </nav>
+    </header>
+    <body>
+        <form action="" method="get">
+            <fieldset>
+                <legend>LabNotebook Details</legend>
+                <div>Creation Date:</div>
+                <div>Completion Date:</div>
+                <div>
+                    <label for="transfectionComplete">Mark as Complete:</label>
+                    <input type="checkbox" id="transfectionComplete" name="transfectionComplete">
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Project Staff</legend>
+                <label for="staff">Select Staff:</label>
+                <select name="staff" id="staff">
+                    <option value=""></option>
+                    <option value="researcher1">Nelson Morales</option>
+                    <option value="researcher2">Ted Terry</option>
+                    <option value="researcher3">Jamie Garrett</option>
+                </select>
+                <input type="button" value="Add Additional Member"></input>
+            </fieldset>
+            <fieldset>
+                <legend>Chimera Details</legend>
+                <div>
+                    <label for="mitogene">Select MitoGene:</label>
+                    <select name="mitogene" id="mitogene">
+                        <option value=""></option>
+                        <option value="MT-ATP6">MT-ATP6</option>
+                        <option value="MT-ND5">MT-ND5</option>
+                        <option value="MT-TL1">MT-TL1</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="vector">Select Vector:</label>
+                    <select name="vector" id="vector">
+                        <option value=""></option>
+                        <option value="pHSG396DNA">pHSG 396 DNA</option>
+                        <option value="pHSG398DNA">pHSG 398 DNA</option>
+                        <option value="PSF-CMV-KAN">PSF-CMV-KAN</option>
+                        <option value="PSF-CAG-KAN">PSF-CAG-KAN</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="providerName">Provider Name:</label>
+                    <input type="text" id="providerName" name="providerName" value=""> 
+                </div>
+                <div>
+                    <label for="diseaseName">Disease Name:</label>
+                    <input type="text" id="diseaseName" name="diseaseName" value=""> 
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Storage</legend>
+                <label for="storageFreezer">Storage Freezer:</label>
+                    <select name="storageFreezer" id="storageFreezer">
+                        <option value=""></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                <label for="fBLocPre">Freezer Box Location:</label>
+                <input type="text" id="fBLocPre" name="fBLocPre" size="3">
+                <label for="fBLocSuf">-</label>
+                <input type="text" id="fBLocSuf" name="fBLocSuf" size="3">
+            </fieldset>
+            <div><input type="button" value="Update LabNotebook"></input></div>
+        </form>
+    </body>

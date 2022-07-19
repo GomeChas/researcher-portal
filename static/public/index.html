@@ -18,8 +18,7 @@
         </ul>
     </nav>
   </header>
-  <div>
-    <div></div>
+  <body>
     <div>
         <table>
             <thead>
@@ -33,9 +32,92 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- fill with data -->
+                <tr>
+                  <td>Nelson Morales, Ted Terry</td>
+                  <td>2019/02/04</td>
+                  <td>TRUE</td>
+                  <td>2020/08/12</td>
+                  <td>1</td>
+                  <td>FB1-A3</td>
+                </tr>
+                <tr>
+                  <td>Ted Terry</td>
+                  <td>2020/08/05</td>
+                  <td>TRUE</td>
+                  <td>2022/05/28</td>
+                  <td>2</td>
+                  <td>FB4-H10</td>
+                </tr>
+                <tr>
+                  <td>Nelson Morales, Jamie Garrett</td>
+                  <td>2020/01/11</td>
+                  <td>TRUE</td>
+                  <td>2021/08/25</td>
+                  <td>1</td>
+                  <td>FB1-B3</td>
+                </tr>
             </tbody>
         </table>
     </div>
-  </div>
+    <form action="" method="get">
+      <fieldset>
+        <legend>Project Staff</legend>
+        <label for="staff">Select Staff:</label>
+        <select name="staff" id="staff">
+            <option value=""></option>
+            <option value="researcher1">Nelson Morales</option>
+            <option value="researcher2">Ted Terry</option>
+            <option value="researcher3">Jamie Garrett</option>
+        </select>
+        <input type="button" value="Add Additional Member"></input>
+      </fieldset>
+      <fieldset>
+        <legend>Chimera Details</legend>
+        <div>
+            <label for="mitogene">Select MitoGene:</label>
+            <select name="mitogene" id="mitogene">
+                <option value=""></option>
+                <option value="MT-ATP6">MT-ATP6</option>
+                <option value="MT-ND5">MT-ND5</option>
+                <option value="MT-TL1">MT-TL1</option>
+            </select>
+        </div>
+        <div>
+            <label for="vector">Select Vector:</label>
+            <select name="vector" id="vector">
+                <option value=""></option>
+                <option value="pHSG398DNA">pHSG 398 DNA</option>
+                <option value="pHSG396DNA">pHSG 396 DNA</option>
+                <option value="PSF-CMV-KAN">PSF-CMV-KAN</option>
+                <option value="PSF-CAG-KAN">PSF-CAG-KAN</option>
+            </select>
+        </div>
+        <div>
+            <label for="providerName">Provider Name:</label>
+            <input type="text" id="providerName" name="providerName"> 
+        </div>
+        <div>
+            <label for="diseaseName">Disease Name:</label>
+            <input type="text" id="diseaseName" name="diseaseName"> 
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Storage</legend>
+        <label for="storageFreezer">Storage Freezer:</label>
+            <select name="storageFreezer" id="storageFreezer">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        <label for="fBLocPre">Freezer Box Location:</label>
+        <input type="text" id="fBLocPre" name="fBLocPre" size="3">
+        <label for="fBLocSuf">-</label>
+        <input type="text" id="fBLocSuf" name="fBLocSuf" size="3">
+      </fieldset>
+        <div>
+            <input type="submit" value="Add a LabNotebook">
+        </div>
+    </form>
+  </body>
 </html> 

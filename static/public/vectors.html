@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lnag="en">
+    
     <head>
     <meta charset="utf-8">
-    <title>MyT Codon Projects</title>
+    <title>MyT Codon Researcher Portal</title>
     <link href="style/mytCodon.css" rel="stylesheet" type="text/css" />
     </head>
 
@@ -10,10 +11,11 @@
         <nav class="menu">
             <ul>
                 <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
                 <li><a href="researchers.html">Researchers</a></li>
+                <li><a href="chimeras.html">Chimeras</a></li>
                 <li><a href="genes.html">Genes</a></li>
                 <li><a href="vectors.html">Vectors</a></li>
-                <li><a href="chimeras.html">Chimeras</a></li>
                 <li><a href="antibacterials.html">AntiBacterials</a></li>
             </ul>
         </nav>
@@ -30,9 +32,82 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- fill with data  -->
+                    <tr>
+                        <td>pHSG 396 DNA</td>
+                        <td>Chloramphenicol</td>
+                        <td>2238</td>
+                        <td>EcoRI, EcoRII, EcoRV, SmaI, BamHI, XbaI, SalI, HindIII</td>
+                    </tr>
+                    <tr>
+                        <td>PSF-CMV-KAN</td>
+                        <td>Kanamyacin</td>
+                        <td>4245</td>
+                        <td>AscI, PacI, BgiI, XhoI, EcoRI, EcoRV, BalI, BseRI, BsgI</td>
+                    </tr>
+                    <tr>
+                        <td>PSF-CAG-KAN</td>
+                        <td>Kanamyacin</td>
+                        <td>5358</td>
+                        <td>PacI, BgiI, XhoI, SmaI, BamHI, XbaI, SalI, HindIII</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
+        <form action="" method="get">
+            <fieldset>
+                <section>
+                    <label for="productName">Product Name:</label>
+                    <input type="text" id="productName" name="productName" required
+                        minlength="2" maxlength="50" size="10">
+                </section>
+                <section>
+                    <label for="antiBac_select">Select an AntiBacterial:</label>
+                    <select name="antibacterial" id="antiBac_select">
+                        <option value="">--Please choose an option--</option>
+                        <option value="Chloramphenicol">Chloramphenicol</option>
+                        <option value="Kanamyacin">Kanamyacin</option>
+                    </select>
+                </section>
+                <section>
+                    <label for="vectorSize">Vector Size (bp):</label>
+                    <input type="number" id="vectorSize" name="vectorSize"
+                        min="500" max="20000">
+                </section>
+            </fieldset>
+            <fieldset>
+                <legend>Select applicable Restriction Enzyme cut sites</legend>
+                <div>
+                    <input type="checkbox" id="EcoRI" name="reCutSite" value="EcoRI">
+                    <label for="EcoRI">EcoRI</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="EcoRIII" name="reCutSite" value="EcoRIII">
+                    <label for="EcoRIII">EcoRIII</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="BamHI" name="reCutSite" value="BamHI">
+                    <label for="BamHI">BamHI</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="HindIII" name="reCutSite" value="HindIII">
+                    <label for="HindIII">HindIII</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="XhoI" name="reCutSite" value="XhoI">
+                    <label for="XhoI">XhoI</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="BalI" name="reCutSite" value="BalI">
+                    <label for="BalI">BalI</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="EcoRV" name="reCutSite" value="EcoRV">
+                    <label for="EcoRV">EcoRV</label>
+                </div>
+            </fieldset>
+            <div>
+                <input type="submit" value="Add Vector">
+            </div>
+        </form>
     </body>
 </html>

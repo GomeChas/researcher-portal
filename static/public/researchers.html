@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lnag="en">
+    
     <head>
     <meta charset="utf-8">
-    <title>MyT Codon Projects</title>
+    <title>MyT Codon Researcher Portal</title>
     <link href="style/mytCodon.css" rel="stylesheet" type="text/css" />
     </head>
 
@@ -10,10 +11,11 @@
         <nav class="menu">
             <ul>
                 <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
                 <li><a href="researchers.html">Researchers</a></li>
+                <li><a href="chimeras.html">Chimeras</a></li>
                 <li><a href="genes.html">Genes</a></li>
                 <li><a href="vectors.html">Vectors</a></li>
-                <li><a href="chimeras.html">Chimeras</a></li>
                 <li><a href="antibacterials.html">AntiBacterials</a></li>
             </ul>
         </nav>
@@ -48,34 +50,31 @@
             </table>
         </div>
         <form action="" method="get">
-            <section>
-                <label for="f_name">First Name:</label>
-
-                <input type="text" id="f_name" name="f_name" required
-        minlength="2" maxlength="50" size="10">
-            </section>
-            <section>
-                <label for="l_name">Last Name:</label>
-
-                <input type="text" id="l_name" name="l_name" required
-        minlength="2" maxlength="50" size="10">
-            </section>
-            <section>
-                <fieldset>
-                    <legend>Does the researcher have an acive credential?</legend>
-                
+            <fieldset>
+                <section>
+                    <label for="FirstName">First Name:</label>
+                    <input type="text" id="FirstName" name="FirstName" required
+                        minlength="2" maxlength="50" size="10">
+                </section>
+                <section>
+                    <label for="LastName">Last Name:</label>
+                    <input type="text" id="LastName" name="LastName" required
+                        minlength="2" maxlength="50" size="10">
+                </section>
+            </fieldset>
+            <fieldset>
+                <legend>Acive credentials?</legend>
                     <div>
-                    <input type="radio" id="yes" name="credential" value=TRUE
+                        <input type="radio" id="yes" name="Credential" value=TRUE
                             checked>
-                    <label for="yes">Yes</label>
+                        <label for="yes">Yes</label>
                     </div>
-                
                     <div>
-                    <input type="radio" id="no" name="credential" value=FALSE>
-                    <label for="no">No</label>
+                        <input type="radio" id="no" name="Credential" value=FALSE>
+                        <label for="no">No</label>
                     </div>
-            </section>
-            <div>
+            </fieldset>
+            <div>  
                 <input type="submit" value="Add new researcher">
             </div>
         </form>

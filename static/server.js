@@ -1,6 +1,6 @@
 'use strict';
 
-const PORT = 2727;
+const PORT = 9727;
 
 // The variable stocks has the same value as the variable stocks in the file 'stocks.js'
 const express = require("express");
@@ -13,12 +13,12 @@ app.use(express.urlencoded({
 app.use(express.static('public'));
 
 app.get("/", (req, res) => {
-    res.send("Just a test...");
+    res.send("This is just a test...");
 });
 // Note: Don't add or change anything above this line.
 
 
 // Note: Don't add or change anything below this line.
 app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}...`);
+    console.log(`Server listening on port ${PORT}...press Ctrl-C to terminate`);
 });

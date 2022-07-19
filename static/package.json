@@ -8,10 +8,11 @@
     "start": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Chase P. Gomez",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
+    "forever": "^4.0.3",
     "nodemon": "^2.0.19"
   }
 }
