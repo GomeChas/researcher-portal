@@ -12,6 +12,7 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
+                <li><a href="labnotebooks.html">LabNotebooks</a></li>
                 <li><a href="researchers.html">Researchers</a></li>
                 <li><a href="chimeras.html">Chimeras</a></li>
                 <li><a href="genes.html">Genes</a></li>
@@ -29,7 +30,7 @@
                         <th>Product Name</th>
                         <th>AntiBacterial Selection</th>
                         <th>Vector Size</th>
-                        <th>Restriction Enzymes</th>
+                        <th>Restriction Enzyme Cut Sites</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,8 +63,8 @@
                         minlength="2" maxlength="50" size="10">
                 </section>
                 <section>
-                    <label for="antiBac_select">Select an AntiBacterial:</label>
-                    <select name="antibacterial" id="antiBac_select">
+                    <label for="antiBacterialID">AntiBacterial Selection:</label>
+                    <select name="antiBacterialID" id="antiBacterialID">
                         <option value="">--Please choose an option--</option>
                         <option value="Chloramphenicol">Chloramphenicol</option>
                         <option value="Kanamyacin">Kanamyacin</option>
@@ -76,7 +77,7 @@
                 </section>
             </fieldset>
             <fieldset>
-                <legend>Select applicable Restriction Enzyme cut sites</legend>
+                <legend>Select applicable Restriction Enzyme cut sites:</legend>
                 <div>
                     <input type="checkbox" id="EcoRI" name="reCutSite" value="EcoRI">
                     <label for="EcoRI">EcoRI</label>
