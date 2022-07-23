@@ -24,8 +24,8 @@
     <form action="" method="get">
         <fieldset>
             <legend>LabNotebook Details</legend>
-            <div>Creation Date:</div>
-            <div>Completion Date:</div>
+            <div>Creation Date: 2019/02/04</div>
+            <div>Completion Date: 2020/08/12</div>
             <div>
                 <label for="transfectionComplete">Mark as Complete:</label>
                 <input type="checkbox" id="transfectionComplete" name="transfectionComplete">
@@ -33,30 +33,28 @@
         </fieldset>
         <fieldset>
             <legend>Project Staff</legend>
-            <label for="staff">Select Staff:</label>
+            <label for="staff">Select Additional Project Staff:</label>
             <select name="staff" id="staff">
-                <option value=""></option>
+                <option value="">--Select Researcher--</option>
                 <option value="researcher1">Nelson Morales</option>
                 <option value="researcher2">Ted Terry</option>
                 <option value="researcher3">Jamie Garrett</option>
             </select>
-            <input type="button" value="Add Additional Member"></input>
+            <input type="button" value="Add Researcher"></input>
         </fieldset>
         <fieldset>
             <legend>Chimera Details</legend>
             <div>
                 <label for="mitogene">Select MitoGene:</label>
                 <select name="mitogene" id="mitogene">
-                    <option value=""></option>
-                    <option value="MT-ATP6">MT-ATP6</option>
                     <option value="MT-ND5">MT-ND5</option>
+                    <option value="MT-ATP6">MT-ATP6</option>
                     <option value="MT-TL1">MT-TL1</option>
                 </select>
             </div>
             <div>
                 <label for="vector">Select Vector:</label>
                 <select name="vector" id="vector">
-                    <option value=""></option>
                     <option value="pHSG396DNA">pHSG 396 DNA</option>
                     <option value="pHSG398DNA">pHSG 398 DNA</option>
                     <option value="PSF-CMV-KAN">PSF-CMV-KAN</option>
@@ -76,7 +74,6 @@
             <legend>Storage</legend>
             <label for="storageFreezer">Storage Freezer:</label>
                 <select name="storageFreezer" id="storageFreezer">
-                    <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
