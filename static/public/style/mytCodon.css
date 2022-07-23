@@ -17,6 +17,11 @@ main {
 	font-style: bold;
 }
 
+label {
+	text-align: right;
+	vertical-align: top;
+}
+
 #tableFilter {
 	background-position: 10px 12px;
 	background-repeat: no-repeat;
