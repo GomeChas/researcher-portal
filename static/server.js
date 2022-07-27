@@ -6,6 +6,9 @@ const PORT = 9727;
 const express = require("express");
 const app = express();
 
+// Database
+var db = require('./db-connector')
+
 app.use(express.urlencoded({
     extended: true
 }));

@@ -14,6 +14,7 @@
     "@fortawesome/fontawesome-free": "^6.1.1",
     "express": "^4.18.1",
     "forever": "^4.0.3",
+    "mysql": "^2.18.1",
     "nodemon": "^2.0.19"
   }
 }
