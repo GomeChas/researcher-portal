@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "server.js"
   },
   "keywords": [],
   "author": "Chase P. Gomez",
@@ -15,7 +15,6 @@
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
     "forever": "^4.0.3",
-    "mysql": "^2.18.1",
-    "nodemon": "^2.0.19"
+    "mysql": "^2.18.1"
   }
 }

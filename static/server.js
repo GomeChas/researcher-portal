@@ -1,15 +1,16 @@
 'use strict';
 
-const PORT = 9728;
+const PORT = 9727;
 
 // The variable stocks has the same value as the variable stocks in the file 'stocks.js'
 const express = require("express");
 const app = express();
 
 const { engine } = require('express-handlebars');
-var exphbs = require('express-handlebars');     // Import express-handlebars
-app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
-app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
+var exphbs = require('express-handlebars');
+const { query } = require('express');
+app.engine('.hbs', engine({extname: ".hbs"}));
+app.set('view engine', '.hbs');
 
 
 // Database
@@ -21,21 +22,22 @@ app.use(express.urlencoded({
 
 app.use(express.static('public'));
 
-app.get("/researchers", (req, res) => {
-    let query1 = "SELECT FirstName AS `First Name`, "
-                        "LastName AS `Last Name`, "
-                        "Credential AS `Active Credential`"
-                        "FROM Researchers;";
-    db.pool.query(query1,function(error, rows, fields) {
-        res.render('index', {data: rows});
-    })
-});
 // Note: Don't add or change anything above this line.
 
 //ROUTES
 app.get('/', function(req, res)
     {
         res.render('index');                    // Note the call to render() and not send(). Using render() ensures the templating engine
+    });
+
+    app.get("/researchers", (req, res) => {
+        let query1 = "SELECT FirstName AS `First Name`, "
+                            "LastName AS `Last Name`, "
+                            "Credential AS `Active Credential`"
+                            "FROM Researchers;";
+        db.pool.query(query1,function(error, rows, fields) {
+            res.render('index', {data: rows});
+        })
     });
 
 // Note: Don't add or change anything below this line.
