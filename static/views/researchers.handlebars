@@ -1,0 +1,69 @@
+<!-- researchers.hbs -->
+<div>
+    <h2>MyT Codon Researchers:</h2>
+</div>
+{{!-- Create a table --}}
+<table>
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Update</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.ResearcherID}}</td>
+            <td>{{this.FirstName}}</td>
+            <td>{{this.LastName}}</td>
+            <td>{{this.Credential}}</td>
+            <td><a href="#">Update</a></td>
+            <td><a href="#" onClick="confirm(`This will remove the researcher.  Are you sure you wish to delete: {{this.FirstName}} {{this.LastName}}?`);">Delete</a></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<h3>Add New Researcher</h3>
+<form action="" method="get">
+    <fieldset>
+        <section>
+            <label for="FirstName">First Name:</label>
+            <input type="text" id="FirstName" name="FirstName" required
+                minlength="2" maxlength="50" size="10">
+        </section>
+        <section>
+            <label for="LastName">Last Name:</label>
+            <input type="text" id="LastName" name="LastName" required
+                minlength="2" maxlength="50" size="10">
+        </section>
+    </fieldset>
+    <fieldset>
+        <legend>Acive credentials?</legend>
+            <div>
+                <input type="radio" id="yes" name="Credential" value=TRUE
+                    checked>
+                <label for="yes">Yes</label>
+            </div>
+            <div>
+                <input type="radio" id="no" name="Credential" value=FALSE>
+                <label for="no">No</label>
+            </div>
+    </fieldset>
+    <div>  
+        <input type="submit" value="Add Researcher">
+    </div>
+</form>
