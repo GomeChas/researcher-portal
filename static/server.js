@@ -1,20 +1,19 @@
 'use strict';
 
-const PORT = 9727;
-
-// The variable stocks has the same value as the variable stocks in the file 'stocks.js'
 const express = require("express");
 const app = express();
+const PORT = 9727;
 
-const { engine } = require('express-handlebars');
-var exphbs = require('express-handlebars');
-const { query } = require('express');
-app.engine('.hbs', engine({extname: ".hbs"}));
-app.set('view engine', '.hbs');
+//Database
+//var db = require('./db-connection');
 
-
-// Database
-var db = require('./db-connector')
+//Handlebars
+//var exphbs = require('express-handlebars');
+//const { query } = require('express');
+//app.engine('.hbs', exphbs ({
+    //extname: '.hbs'
+//}));
+//app.set('view engine', '.hbs');
 
 app.use(express.urlencoded({
     extended: true
@@ -24,21 +23,12 @@ app.use(express.static('public'));
 
 // Note: Don't add or change anything above this line.
 
-//ROUTES
-app.get('/', function(req, res)
-    {
-        res.render('index');                    // Note the call to render() and not send(). Using render() ensures the templating engine
-    });
-
-    app.get("/researchers", (req, res) => {
-        let query1 = "SELECT FirstName AS `First Name`, "
-                            "LastName AS `Last Name`, "
-                            "Credential AS `Active Credential`"
-                            "FROM Researchers;";
-        db.pool.query(query1,function(error, rows, fields) {
-            res.render('index', {data: rows});
-        })
-    });
+//app.get('/researchers', function(req, res) {
+    //let read_query = 'SELECT * FROM Researchers;';
+    //db.pool.query(read_query, function(errors, rows, fields) {
+        //res.render('researchers', {data: rows});
+    //})
+//});
 
 // Note: Don't add or change anything below this line.
 app.listen(PORT, () => {
