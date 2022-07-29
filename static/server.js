@@ -1,6 +1,6 @@
 'use strict';
 
-const PORT = 9727;
+const PORT = 9728;
 
 // The variable stocks has the same value as the variable stocks in the file 'stocks.js'
 const express = require("express");
@@ -21,8 +21,14 @@ app.use(express.urlencoded({
 
 app.use(express.static('public'));
 
-app.get("/", (req, res) => {
-    res.send("This is just a test...");
+app.get("/researchers", (req, res) => {
+    let query1 = "SELECT FirstName AS `First Name`, "
+                        "LastName AS `Last Name`, "
+                        "Credential AS `Active Credential`"
+                        "FROM Researchers;";
+    db.pool.query(query1,function(error, rows, fields) {
+        res.render('index', {data: rows});
+    })
 });
 // Note: Don't add or change anything above this line.
 
