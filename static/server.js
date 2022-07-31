@@ -22,8 +22,6 @@ app.set('view engine', 'handlebars');
 
 // Note: Don't add or change anything above this line.
 
-// Note: Don't add or change anything above this line.
-
 app.get('/', function(req, res) {
     res.render('index');
 });
