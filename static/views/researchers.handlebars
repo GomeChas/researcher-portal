@@ -3,7 +3,7 @@
     <h2>MyT Codon Researchers:</h2>
 </div>
 {{!-- Create a table --}}
-<table>
+<table id="researchers-table">
 
     {{!-- Table header section --}}
     <thead>
@@ -25,14 +25,14 @@
             <td>{{this.FirstName}}</td>
             <td>{{this.LastName}}</td>
             <td>{{this.Credential}}</td>
-            <td><a href="#">Edit</a></td>
-            <td><a href="#" onClick="confirm(`This will remove the researcher.  Are you sure you wish to delete: {{this.FirstName}} {{this.LastName}}?`);">Delete</a></td>
+            <td><a href="#" id="update_researcher">Edit</a></td>
+            <td><a href="#" id="delete_researcher" onClick="confirm(`This will remove the researcher.  Are you sure you wish to delete: {{this.FirstName}} {{this.LastName}}?`);">Delete</a></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 <h3>Add New Researcher</h3>
-<form action="" method="get">
+<form id="add_new_researcher">
     <fieldset>
         <section>
             <label for="FirstName">First Name:</label>
@@ -48,8 +48,7 @@
     <fieldset>
         <legend>Acive credentials?</legend>
             <div>
-                <input type="radio" id="yes" name="Credential" value=TRUE
-                    checked>
+                <input type="radio" id="yes" name="Credential" value=TRUE checked>
                 <label for="yes">Yes</label>
             </div>
             <div>
@@ -61,3 +60,6 @@
         <input type="submit" value="Add Researcher">
     </div>
 </form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_researcher.js"></script>

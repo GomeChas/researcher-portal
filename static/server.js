@@ -4,10 +4,10 @@ const express = require("express");
 const app = express();
 const PORT = 9727;
 
+app.use(express.json())
 app.use(express.urlencoded({
     extended: true
 }));
-
 app.use(express.static('public'));
 
 //Database
@@ -77,6 +77,33 @@ app.get('/researchers', function(req, res) {
     })
 });
 
+app.post('/add_new_researcher', function(req, res) {
+    let data = req.body;
+
+    let u_query = `INSERT INTO Researchers (FirstName, LastName, Credential)
+                    VALUES
+                    ('${data.FirstName}','${data.LastName}','${data.Credential}')`;
+    db.pool.query(u_query, function(error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            let r_query = 'SELECT FirstName, LastName, Credential FROM Researchers;';
+            db.pool.query(r_query, function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
 app.get('/chimeras', function(req, res) {
     let r_query = `SELECT
                     MG.HgncSymbol,
@@ -111,6 +138,33 @@ app.get('/antibacterials', function(req, res) {
     let r_query = 'SELECT AntiBacterialName FROM AntiBacterials;';
     db.pool.query(r_query, function(errors, rows, fields) {
         res.render('antibacterials', {data: rows});
+    })
+});
+
+app.post('/add_new_antibacterial', function(req, res) {
+    let data = req.body;
+
+    let u_query = `INSERT INTO AntiBacterials (AntiBacterialName)
+                    VALUES
+                    ('${data.AntiBacterialName}')`;
+    db.pool.query(u_query, function(error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            let r_query = 'SELECT AntiBacterialName FROM AntiBacterials;';
+            db.pool.query(r_query, function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    res.send(rows);
+                }
+            })
+        }
     })
 });
 
