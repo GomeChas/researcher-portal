@@ -1,0 +1,71 @@
+<!-- genes.hbs-->
+<div>
+    <h2>Mitochondrial genes used in chimeraplastic therapeutics:</h2>
+</div>
+
+{{!-- Create a table --}}
+<table>
+
+    {{!-- Table header section --}}
+    <thead>
+        <tr>
+            <th>HGNC ID</th>
+            <th>HGNC MitoGene Symbol</th>
+            <th>HGNC MitoGene Name</th>
+            <th>NCBI ID</th>
+            <th>UniProt ID</th>
+        </tr>
+    </thead>
+
+    {{!-- Table body section --}}
+    <tbody>
+
+        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.HgncID}}</td>
+            <td>{{this.HgncSymbol}}</td>
+            <td>{{this.HgncName}}</td>
+            <td>{{this.NCBIGeneID}}</td>
+            <td>{{this.UniProtID}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<div>
+    <h3>Add New MitoGene</h3>
+    <form action="" method="get">
+        <fieldset>
+            <section>
+                <label for="hgnc_id">HGNC ID:</label>
+                <input type="number" id="hgnc_id" name="hgnc_id"
+                    min="100" max="10000">
+            </section>
+            <section>
+                <label for="hgnc_symbol">HGNC MitoGene Symbol:</label>
+                <input type="text" id="hgnc_symbol" name="hgnc_symbol" required
+                    minlength="1" maxlength="10" size="10">
+            </section>
+            <section>
+                <label for="hgnc_name">HGNC MitoGene Name:</label>
+                <textarea id="hgnc_name" name="hgnc_name"
+                    rows="4" cols="45">
+                </textarea>
+            </section>
+            <section>
+                <label for="ncbi_id">NCBI ID:</label>
+                <input type="number" id="ncbi_id" name="ncbi_id"
+                    min="100" max="10000">
+            </section>
+            <section>
+                <label for="uniprot_id">UniProt ID:</label>
+                <input type="text" id="uniprot_id" name="uniprot_id" required
+                    minlength="1" maxlength="10" size="10">
+            </section>
+        </fieldset>
+        <div>
+            <input type="submit" value="Add MitoGene">
+        </div>
+    </form>
+</div>

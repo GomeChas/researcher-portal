@@ -1,0 +1,37 @@
+<!-- antibacterials.hbs -->
+<div>
+    <h2>MyT Codon Antibacterial Selection:</h2>
+</div>
+{{!-- Create a table --}}
+<table>
+
+    {{!-- Table header section --}}
+    <thead>
+        <tr>
+            <th>Antibacterial Name</th>
+        </tr>
+    </thead>
+
+    {{!-- Table body section --}}
+    <tbody>
+
+        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.AntiBacterialName}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h3>Add New Antibactrial Agent</h3>
+<form action="" method="get">
+    <section>
+        <label for="AntiBacterialName">AntiBacterial:</label>
+        <input type="text" id="AntiBacterialName" name="AntiBacterialName" required
+            minlength="2" maxlength="50" size="10">
+    </section>
+    <div>
+        <input type="submit" value="Add AntiBacterial">
+    </div>
+</form>

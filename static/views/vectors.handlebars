@@ -1,0 +1,93 @@
+<!-- vectors.hbs-->
+
+<div>
+    <h2>Vectors used in the development of chimeraplastic therapeutics:</h2>
+</div>
+
+{{!-- Create a table --}}
+<table>
+
+    {{!-- Table header section --}}
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>AntiBacterial Selection</th>
+            <th>Vector Size</th>
+            <th>Restriction Enzyme Cut Sites</th>
+        </tr>
+    </thead>
+
+    {{!-- Table body section --}}
+    <tbody>
+
+        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.ProductName}}</td>
+            <td>{{this.AntiBacterialName}}</td>
+            <td>{{this.VectorSize}}</td>
+            <td>{{this.RECutSites}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<div>
+    <h3>Add New Vector</h3>
+    <form action="" method="get">
+        <fieldset>
+            <section>
+                <label for="productName">Product Name:</label>
+                <input type="text" id="productName" name="productName" required
+                    minlength="2" maxlength="50" size="10">
+            </section>
+            <section>
+                <label for="antiBacterialID">AntiBacterial Selection:</label>
+                <select name="antiBacterialID" id="antiBacterialID">
+                    <option value="">--Please choose an option--</option>
+                    <option value="Chloramphenicol">Chloramphenicol</option>
+                    <option value="Kanamyacin">Kanamyacin</option>
+                </select>
+            </section>
+            <section>
+                <label for="vectorSize">Vector Size (bp):</label>
+                <input type="number" id="vectorSize" name="vectorSize"
+                    min="500" max="20000">
+            </section>
+        </fieldset>
+        <fieldset>
+            <legend>Select applicable Restriction Enzyme cut sites:</legend>
+            <div>
+                <input type="checkbox" id="EcoRI" name="reCutSite" value="EcoRI">
+                <label for="EcoRI">EcoRI</label>
+            </div>
+            <div>
+                <input type="checkbox" id="EcoRIII" name="reCutSite" value="EcoRIII">
+                <label for="EcoRIII">EcoRIII</label>
+            </div>
+            <div>
+                <input type="checkbox" id="BamHI" name="reCutSite" value="BamHI">
+                <label for="BamHI">BamHI</label>
+            </div>
+            <div>
+                <input type="checkbox" id="HindIII" name="reCutSite" value="HindIII">
+                <label for="HindIII">HindIII</label>
+            </div>
+            <div>
+                <input type="checkbox" id="XhoI" name="reCutSite" value="XhoI">
+                <label for="XhoI">XhoI</label>
+            </div>
+            <div>
+                <input type="checkbox" id="BalI" name="reCutSite" value="BalI">
+                <label for="BalI">BalI</label>
+            </div>
+            <div>
+                <input type="checkbox" id="EcoRV" name="reCutSite" value="EcoRV">
+                <label for="EcoRV">EcoRV</label>
+            </div>
+        </fieldset>
+        <div>
+            <input type="submit" value="Add Vector">
+        </div>
+    </form>
+</div>

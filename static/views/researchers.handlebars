@@ -5,33 +5,27 @@
 {{!-- Create a table --}}
 <table>
 
-    {{!-- Header section --}}
+    {{!-- Table header section --}}
     <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Active Credential</th>
             <th>Update</th>
             <th>Remove</th>
         </tr>
     </thead>
 
-    {{!-- Body section --}}
+    {{!-- Table body section --}}
     <tbody>
 
         {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
         {{#each data}}
         <tr>
-            <td>{{this.ResearcherID}}</td>
             <td>{{this.FirstName}}</td>
             <td>{{this.LastName}}</td>
             <td>{{this.Credential}}</td>
-            <td><a href="#">Update</a></td>
+            <td><a href="#">Edit</a></td>
             <td><a href="#" onClick="confirm(`This will remove the researcher.  Are you sure you wish to delete: {{this.FirstName}} {{this.LastName}}?`);">Delete</a></td>
         </tr>
         {{/each}}
