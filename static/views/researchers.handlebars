@@ -25,7 +25,7 @@
             <td>{{this.FirstName}}</td>
             <td>{{this.LastName}}</td>
             <td>{{this.Credential}}</td>
-            <td><a href="#" id="update_researcher"><i class="fa-solid fa-pen-to-square" ></i></a></td>
+            <td><a href="./researcher_update" id="update_researcher"><i class="fa-solid fa-pen-to-square" ></i></a></td>
             <td><a href="#" id="delete_researcher"><i class="fa-solid fa-trash" onClick="confirm(`This will remove the researcher.  Are you sure you wish to delete: {{this.FirstName}} {{this.LastName}}?`);"></i></a></td>
         </tr>
         {{/each}}

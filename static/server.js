@@ -70,11 +70,19 @@ app.get('/labnotebooks', function(req, res) {
     })
 });
 
+app.get('/labnotebook_update', function(req, res) {
+    res.render('labnotebook_update');
+});
+
 app.get('/researchers', function(req, res) {
     let r_query = 'SELECT FirstName, LastName, Credential FROM Researchers;';
     db.pool.query(r_query, function(errors, rows, fields) {
         res.render('researchers', {data: rows});
     })
+});
+
+app.get('/researcher_update', function(req, res) {
+    res.render('researcher_update');
 });
 
 app.post('/add_new_researcher', function(req, res) {

@@ -53,7 +53,7 @@ addRowToTable = (data) => {
     FirstNameCell.innerText = newRow.FirstName;
     LastNameCell.innerText = newRow.LastName;
     CredentialCell.innerText = newRow.Credential;
-    UpdateCell.insertAdjacentHTML("afterbegin", "<a href='#' id='update_researcher'><i class='fa-solid fa-pen-to-square' ></i></a>");
+    UpdateCell.insertAdjacentHTML("afterbegin", "<a href='./researcher_update' id='update_researcher'><i class='fa-solid fa-pen-to-square' ></i></a>");
     DeleteCell.insertAdjacentHTML("afterbegin", "<a href='#' id='delete_researcher'><i class='fa-solid fa-trash' onClick='confirm(`This will remove the researcher.  Are you sure you wish to delete?`);'></i></a>");
 
     row.appendChild(FirstNameCell);
