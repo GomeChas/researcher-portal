@@ -38,6 +38,19 @@ table {
 }
 th, td { 
     border: 2px solid #61dafb;
+	text-align: center;
+}
+
+#update_researcher {
+	width: 30px;
+	height: 30px;
+	vertical-align: middle;
+}
+
+#delete_researcher {
+	width: 30px;
+	height: 30px;
+	vertical-align: middle;
 }
 
 nav {
