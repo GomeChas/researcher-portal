@@ -46,15 +46,13 @@
         </section>
     </fieldset>
     <fieldset>
-        <legend>Acive credentials?</legend>
-            <div>
-                <input type="radio" id="yes" name="Credential" value=TRUE checked>
-                <label for="yes">Yes</label>
-            </div>
-            <div>
-                <input type="radio" id="no" name="Credential" value=FALSE>
-                <label for="no">No</label>
-            </div>
+        <div>
+            <label for="Credential">Active credential?</label>
+            <select name="staff" id="staff">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
     </fieldset>
     <div>  
         <input type="submit" value="Add Researcher">
