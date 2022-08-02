@@ -5,7 +5,7 @@ addResearcher.addEventListener("submit", function(e) {
 
     let inputFirstName = document.getElementById('FirstName');
     let inputLastName = document.getElementById('LastName');
-    let inputCredential = document.getElementsByName('Credential');
+    let inputCredential = document.getElementById('Credential');
 
     let FirstNameValue = inputFirstName.value;
     let LastNameValue = inputLastName.value;
@@ -28,7 +28,7 @@ addResearcher.addEventListener("submit", function(e) {
 
             inputFirstName.value = '';
             inputLastName.value = '';
-            inputCredential.value = '';
+            inputCredential.value = 'Yes';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
                 console.log("There was an error with input")
@@ -53,8 +53,8 @@ addRowToTable = (data) => {
     FirstNameCell.innerText = newRow.FirstName;
     LastNameCell.innerText = newRow.LastName;
     CredentialCell.innerText = newRow.Credential;
-    UpdateCell.insertAdjacentHTML("afterbegin", "<a href='#'>Edit</a>");
-    DeleteCell.insertAdjacentHTML("afterbegin", "<a href='#' onClick='confirm(`This will remove the researcher. Are you sure you wish to delete?`);'>Delete</a>");
+    UpdateCell.insertAdjacentHTML("afterbegin", "<a href='#' id='update_researcher'><i class='fa-solid fa-pen-to-square' ></i></a>");
+    DeleteCell.insertAdjacentHTML("afterbegin", "<a href='#' id='delete_researcher'><i class='fa-solid fa-trash' onClick='confirm(`This will remove the researcher.  Are you sure you wish to delete?`);'></i></a>");
 
     row.appendChild(FirstNameCell);
     row.appendChild(LastNameCell);
