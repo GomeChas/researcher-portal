@@ -3,19 +3,25 @@ let addResearcher = document.getElementById('add_new_researcher');
 addResearcher.addEventListener("submit", function(e) {
     e.preventDefault();
 
-    let inputFirstName = document.getElementById('FirstName');
-    let inputLastName = document.getElementById('LastName');
-    let inputCredential = document.getElementsByName('Credential');
+    let inputFirstName = document.getElementById('firstName');
+    let inputLastName = document.getElementById('lastName');
+    let inputCredentialTrue = document.getElementById('credentialTrue');
+    let inputCredentialFalse = document.getElementById('credentialFalse');
 
-    let FirstNameValue = inputFirstName.value;
-    let LastNameValue = inputLastName.value;
-    let CredentialValue = inputCredential.value;
-
+    let firstNameValue = inputFirstName.value;
+    let lastNameValue = inputLastName.value;
+    if (inputCredentialTrue.checked){
+        credentialValue = 1
+    }
+    if (inputCredentialFalse.checked){
+        credentialValue = 0
+    }
+    let inputCredential = credentialValue
 
     let data = {
-        FirstName: FirstNameValue,
-        LastName: LastNameValue,
-        Credential: CredentialValue
+        FirstName: firstNameValue,
+        LastName: lastNameValue,
+        Credential: credentialValue
     }
 
     var xhttp = new XMLHttpRequest();
@@ -47,20 +53,28 @@ addRowToTable = (data) => {
     let FirstNameCell = document.createElement("td");
     let LastNameCell = document.createElement("td");
     let CredentialCell = document.createElement("td");
-    let UpdateCell = document.createElement("td");
+    //let UpdateCell = document.createElement("td");
     let DeleteCell = document.createElement("td");
 
     FirstNameCell.innerText = newRow.FirstName;
     LastNameCell.innerText = newRow.LastName;
     CredentialCell.innerText = newRow.Credential;
-    UpdateCell.insertAdjacentHTML("afterbegin", "<a href='#'>Edit</a>");
-    DeleteCell.insertAdjacentHTML("afterbegin", "<a href='#' onClick='confirm(`This will remove the researcher. Are you sure you wish to delete?`);'>Delete</a>");
+    //UpdateCell.insertAdjacentHTML("afterbegin", "<a href='#'>Edit</a>");
+    DeleteCell.insertAdjacentHTML("afterbegin", `<button onclick="deleteResearcher(${newRow.ResearcherID})">Delete</button>`);
 
     row.appendChild(FirstNameCell);
     row.appendChild(LastNameCell);
     row.appendChild(CredentialCell);
-    row.appendChild(UpdateCell);
+    //row.appendChild(UpdateCell);
     row.appendChild(DeleteCell);
 
+    row.setAttribute('data-value', newRow.ResearcherID);
+
     currentTable.appendChild(row);
+
+    let selectMenu = document.getElementById("selectResearcherUpdate");
+    let option = document.createElement("option");
+    option.text = newRow.FirstName + ' ' +  newRow.LastName;
+    option.value = newRow.ResearcherID;
+    selectMenu.add(option);
 }
