@@ -43,23 +43,28 @@ addRowToTable = (data) => {
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    let row = document.createElement("TR");
+    let row = document.createElement("tr");
+    let ResearcherIDCell = document.createElement("td")
     let FirstNameCell = document.createElement("td");
     let LastNameCell = document.createElement("td");
     let CredentialCell = document.createElement("td");
-    let UpdateCell = document.createElement("td");
-    let DeleteCell = document.createElement("td");
 
+    let deleteCell = document.createElement("td");
+
+    ResearcherIDCell.innerText = newRow.ResearcherID;
     FirstNameCell.innerText = newRow.FirstName;
     LastNameCell.innerText = newRow.LastName;
     CredentialCell.innerText = newRow.Credential;
-    UpdateCell.insertAdjacentHTML("afterbegin", "<a href='./researcher_update' id='update_researcher'><i class='fa-solid fa-pen-to-square' ></i></a>");
-    DeleteCell.insertAdjacentHTML("afterbegin", "<a href='#' id='delete_researcher'><i class='fa-solid fa-trash' onClick='confirm(`This will remove the researcher.  Are you sure you wish to delete?`);'></i></a>");
+    deleteCell= document.createElement("button");
+    deleteCell.innerHTML = "<i class='fa-solid fa-trash'>"
+    deleteCell.onclick = function () {
+        deleteResearcher(newRow.ResearcherID);
+    };
 
+    row.appendChild(ResearcherIDCell);
     row.appendChild(FirstNameCell);
     row.appendChild(LastNameCell);
     row.appendChild(CredentialCell);
-    row.appendChild(UpdateCell);
     row.appendChild(DeleteCell);
 
     currentTable.appendChild(row);

@@ -3,7 +3,7 @@
 <div>
     <h2>MyT Codon Antibacterial Selection:</h2>
 </div>
-{{!-- Create a table --}}
+
 <table id="antibacterial-table">
 
     {{!-- Table header section --}}
@@ -15,10 +15,8 @@
 
     {{!-- Table body section --}}
     <tbody>
-
-        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value="{{this.AntiBacterialID}}">
             <td>{{this.AntiBacterialName}}</td>
         </tr>
         {{/each}}
@@ -37,5 +35,4 @@
     </div>
 </form>
 
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_antibacterial.js"></script>

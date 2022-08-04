@@ -32,39 +32,23 @@ app.get('/about', function(req, res) {
 
 app.get('/labnotebooks', function(req, res) {
     let r_query = `SELECT
-                    a.Project_Staff,
-                    C.ProviderName,
-                    C.DiseaseName,
-                    M.HgncSymbol,
-                    V.ProductName,
+                    PS.ProjectStaffID,
+                    CONCAT(R.FirstName," ", R.LastName) AS FullName,
+                    LN.LabNotebookID,
+                    LN.SpecialProjectName,
                     LN.CreationDate,
-                    LN.TransfectionComplete,
-                    LN.CompletionDate,
-                    LN.StorageFreezer,
-                    LN.FreezerBoxLoc
-                    FROM (
-                        SELECT
-                        b.LabNotebookID,
-                        GROUP_CONCAT(Name SEPARATOR ', ') AS Project_Staff
-                        FROM (
-                            SELECT
-                            PS.ProjectStaffID,
-                            PS.LabNotebookID,
-                            CONCAT(R.FirstName,' ',R.LastName) AS Name
-                            FROM ProjectStaff PS
-                                INNER JOIN Researchers R
-                                    ON PS.ResearcherID = R.ResearcherID
-                            ) b
-                        GROUP BY b.LabNotebookID
-                    ) a
-                    JOIN LabNotebooks LN
-                        ON a.LabNotebookID = LN.LabNotebookID
-                    JOIN Chimeras C
-                        ON C.LabNotebookID = LN.LabNotebookID
-                    JOIN MitoGenes M
-	                    ON M.MitoGeneID = C.MitoGeneID
-                    JOIN Vectors V
-	                    ON V.VectorID = C.VectorID;`
+                    CASE
+                        WHEN LN.TransfectionComplete = 1 THEN 'Yes'
+                        ELSE 'No'
+                    END AS TransfectionComplete,
+                    COALESCE(LN.CompletionDate,'N/A') AS CompletionDate,
+                    COALESCE(LN.StorageFreezer,'N/A') AS StorageFreezer,
+                    COALESCE(LN.FreezerBoxLoc,'N/A') AS FreezerBoxLoc
+                    FROM LabNotebooks LN
+                        LEFT JOIN ProjectStaff PS
+                            ON PS.LabNotebookID = LN.LabNotebookID
+                        LEFT JOIN Researchers R
+                            ON R.ResearcherID = PS.ResearcherID;`
     db.pool.query(r_query, function(errors, rows, fields) {
         res.render('labnotebooks', {data: rows});
     })
@@ -75,14 +59,18 @@ app.get('/labnotebook_update', function(req, res) {
 });
 
 app.get('/researchers', function(req, res) {
-    let r_query = 'SELECT FirstName, LastName, Credential FROM Researchers;';
+    let r_query = `SELECT
+                    ResearcherID,
+                    FirstName,
+                    LastName,
+                    CASE
+                        WHEN Credential = 1 THEN 'Yes'
+                        ELSE 'No'
+                    END AS Credential
+                    FROM Researchers;`;
     db.pool.query(r_query, function(errors, rows, fields) {
         res.render('researchers', {data: rows});
     })
-});
-
-app.get('/researcher_update', function(req, res) {
-    res.render('researcher_update');
 });
 
 app.post('/add_new_researcher', function(req, res) {
@@ -98,7 +86,15 @@ app.post('/add_new_researcher', function(req, res) {
             res.sendStatus(400);
         }
         else {
-            let r_query = 'SELECT FirstName, LastName, Credential FROM Researchers;';
+            let r_query = `SELECT
+                            ResearcherID,
+                            FirstName,
+                            LastName,
+                            CASE
+                                WHEN Credential = 1 THEN 'Yes'
+                                ELSE 'No'
+                            END AS Credential
+                            FROM Researchers;`;
             db.pool.query(r_query, function(error, rows, fields) {
                 if (error) {
                     console.log(error);
@@ -112,9 +108,86 @@ app.post('/add_new_researcher', function(req, res) {
     })
 });
 
+app.put('/put-researcher', function(req,res,next){
+    let data = req.body;
+  
+    let credential = parseInt(data.credential);
+    let researcher = parseInt(data.researcherId);
+  
+    let queryUpdateCredential = `UPDATE Researchers SET Credential = ? WHERE ResearcherID = ?`;
+    let selectResearcher = `SELECT
+                            ResearcherID,
+                            FirstName,
+                            LastName,
+                            CASE
+                                WHEN Credential = 1 THEN 'Yes'
+                                ELSE 'No'
+                            END AS Credential 
+                            FROM Researchers WHERE ResearcherID = ?`
+  
+          // Run the 1st query
+          db.pool.query(queryUpdateCredential, [credential, researcher], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              // If there was no error, we run our second query and return that data so we can use it to update the people's
+              // table on the front-end
+              else
+              {
+                  // Run the second query
+                  db.pool.query(selectResearcher, [researcher], function(error, rows, fields) {
+  
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.send(rows);
+                      }
+                  })
+              }
+  })});
+
+app.delete('/delete-researcher/', function(req,res,next){
+    let data = req.body;
+    let researcherID = parseInt(data.ResearcherID);
+    let deleteProjectStaff = `DELETE FROM ProjectStaff WHERE ResearcherID = ?`;
+    let deleteResearchers= `DELETE FROM Researchers WHERE ResearcherID = ?`;
+  
+          // Run the 1st query
+          db.pool.query(deleteProjectStaff, [researcherID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              else
+              {
+                  // Run the second query
+                  db.pool.query(deleteResearchers, [researcherID], function(error, rows, fields) {
+  
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.sendStatus(204);
+                      }
+                  })
+              }
+  })});
+
 app.get('/chimeras', function(req, res) {
     let r_query = `SELECT
+                    LN.LabNotebookID,
+                    LN.SpecialProjectName,
+                    MG.MitoGeneID,
                     MG.HgncSymbol,
+                    V.VectorID,
                     V.ProductName,
                     ProviderName,
                     DiseaseName
@@ -122,28 +195,39 @@ app.get('/chimeras', function(req, res) {
                         INNER JOIN MitoGenes MG
                             ON MG.MitoGeneID = C.MitoGeneID
                         INNER JOIN Vectors V
-                            ON V.VectorID = C.VectorID;`
+                            ON V.VectorID = C.VectorID
+                        INNER JOIN LabNotebooks LN
+                            ON LN.LabNotebookID = C.LabNotebookID;`
     db.pool.query(r_query, function(errors, rows, fields) {
         res.render('chimeras', {data: rows});
     })
 });
 
 app.get('/genes', function(req, res) {
-    let r_query = 'SELECT HgncID, HgncSymbol, HgncName, NCBIGeneID, UniProtID FROM MitoGenes;';
+    let r_query = 'SELECT * FROM MitoGenes;';
     db.pool.query(r_query, function(errors, rows, fields) {
         res.render('genes', {data: rows});
     })
 });
 
 app.get('/vectors', function(req, res) {
-    let r_query = 'SELECT ProductName, AB.AntiBacterialName, VectorSize, RECutSites FROM Vectors V INNER JOIN AntiBacterials AB ON AB.AntiBacterialID = V.AntiBacterialID;';
+    let r_query = `SELECT 
+                    V.VectorID,
+                    V.ProductName, 
+                    V.AntiBacterialID,
+                    AB.AntiBacterialName, 
+                    VectorSize, 
+                    RECutSites 
+                    FROM Vectors V 
+                        INNER JOIN AntiBacterials AB 
+                            ON AB.AntiBacterialID = V.AntiBacterialID;`;
     db.pool.query(r_query, function(errors, rows, fields) {
         res.render('vectors', {data: rows});
     })
 });
 
 app.get('/antibacterials', function(req, res) {
-    let r_query = 'SELECT AntiBacterialName FROM AntiBacterials;';
+    let r_query = 'SELECT * FROM AntiBacterials;';
     db.pool.query(r_query, function(errors, rows, fields) {
         res.render('antibacterials', {data: rows});
     })
@@ -162,7 +246,7 @@ app.post('/add_new_antibacterial', function(req, res) {
             res.sendStatus(400);
         }
         else {
-            let r_query = 'SELECT AntiBacterialName FROM AntiBacterials;';
+            let r_query = 'SELECT * FROM AntiBacterials;';
             db.pool.query(r_query, function(error, rows, fields) {
                 if (error) {
                     console.log(error);

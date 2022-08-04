@@ -3,7 +3,6 @@
     <h2>Mitochondrial genes used in chimeraplastic therapeutics:</h2>
 </div>
 
-{{!-- Create a table --}}
 <table>
 
     {{!-- Table header section --}}
@@ -19,8 +18,6 @@
 
     {{!-- Table body section --}}
     <tbody>
-
-        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
         {{#each data}}
         <tr>
             <td>{{this.HgncID}}</td>
@@ -68,4 +65,10 @@
             <input type="submit" value="Add MitoGene">
         </div>
     </form>
+</div>
+<div>
+    <h4>Resources:</h4>
+        <a href="https://www.genenames.org/data/genegroup/#!/group/1972" target="_blank">HGNC Home</a>
+        <a href="https://www.ncbi.nlm.nih.gov/gene" target="_blank">NCBI Gene</a>
+        <a href="https://www.uniprot.org/" target="_blank">UniProt Home</a>
 </div>

@@ -1,5 +1,4 @@
 <!-- vectors.hbs-->
-
 <div>
     <h2>Vectors used in the development of chimeraplastic therapeutics:</h2>
 </div>
@@ -22,7 +21,7 @@
 
         {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
         {{#each data}}
-        <tr>
+        <tr dtat-value="{{this.VectorID}}">
             <td>{{this.ProductName}}</td>
             <td>{{this.AntiBacterialName}}</td>
             <td>{{this.VectorSize}}</td>
@@ -45,14 +44,15 @@
                 <label for="antiBacterialID">AntiBacterial Selection:</label>
                 <select name="antiBacterialID" id="antiBacterialID">
                     <option value="">--Please choose an option--</option>
-                    <option value="Chloramphenicol">Chloramphenicol</option>
-                    <option value="Kanamyacin">Kanamyacin</option>
+                    {{#each data}}
+                    <option value="{{this.AntiBacterialID}}">{{this.AntiBacterialName}}</option>
+                    {{/each}}
                 </select>
             </section>
             <section>
-                <label for="vectorSize">Vector Size (bp):</label>
+                <label for="vectorSize">Vector Size (500-20000 bp):</label>
                 <input type="number" id="vectorSize" name="vectorSize"
-                    min="500" max="20000">
+                    min="500" max="20000" placeholder="1500">
             </section>
         </fieldset>
         <fieldset>

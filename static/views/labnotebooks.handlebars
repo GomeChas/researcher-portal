@@ -3,100 +3,64 @@
     <h2>MyT Codon Project Lab Notebooks:</h2>
 </div>
 <div>
-    <input type="text" id="tableFilter" onkeyup="myFunction()" placeholder="Search MitoGenes">
+    <input type="text" id="tableFilter" onkeyup="myFunction()" placeholder="Search Special Projects">
 </div>
 
-{{!-- Create a table --}}
-<table>
+<div>
+    <table id="labnotebook-table">
+        {{!-- Table header section --}}
+        <thead>
+            <tr>
+                <th>Special Project Name</th>
+                <th>Creation Date</th>
+                <th>Transfection Complete</th>
+                <th>Completion Date</th>
+                <th>Storage Freezer</th>
+                <th>Freezer Box Location</th>
+                <th>Update</th>
+            </tr>
+        </thead>
 
-    {{!-- Table header section --}}
-    <thead>
-        <tr>
-            <th>Project Staff</th>
-            <th>Provider</th>
-            <th>Disease Name</th>
-            <th>Mito Gene</th>
-            <th>Vector</th>
-            <th>Creation Date</th>
-            <th>Transfection Complete</th>
-            <th>Completeion Date</th>
-            <th>Storage Freezer</th>
-            <th>Freezer Box Location</th>
-            <th>Update</th>
-        </tr>
-    </thead>
-
-    {{!-- Table body section --}}
-    <tbody>
-
-        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
-        {{#each data}}
-        <tr>
-            <td>{{this.Project_Staff}}</td>
-            <td>{{this.ProviderName}}</td>
-            <td>{{this.DiseaseName}}</td>
-            <td>{{this.HgncSymbol}}</td>
-            <td>{{this.ProductName}}</td>
-            <td>{{this.CreationDate}}</td>
-            <td>{{this.TransfectionComplete}}</td>
-            <td>{{this.CompleteionDate}}</td>
-            <td>{{this.StorageFreezer}}</td>
-            <td>{{this.FreezerBoxLoc}}</td>
-            <td><a href="./labnotebook_update"><i class="fa-solid fa-pen-to-square" ></i></a></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
+        {{!-- Table body section --}}
+        <tbody>
+            {{#each data}}
+            <tr data-value="{{this.LabNotebookID}}">
+                <td>{{this.SpecialProjectName}}</td>
+                <td>{{this.CreationDate}}</td>
+                <td>{{this.TransfectionComplete}}</td>
+                <td>{{this.CompletionDate}}</td>
+                <td>{{this.StorageFreezer}}</td>
+                <td>{{this.FreezerBoxLoc}}</td>
+                <td><a href="./labnotebook_update"><i class="fa-solid fa-pen-to-square" ></i></a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 <div>
     <h3>Add New Lab Notebook</h3>
-    <form action="" method="get">
+    <form id="add_new_labnotebook">
       <fieldset>
-        <legend>Project Staff</legend>
-        <label for="staff">Select Staff:</label>
-        <select name="staff" id="staff">
-            <option value="">--Select Researcher--</option>
-            <option value="researcher1">Nelson Morales</option>
-            <option value="researcher2">Ted Terry</option>
-            <option value="researcher3">Jamie Garrett</option>
-        </select>
-        <input type="button" value="Add Researcher"></input>
+          <legend>Special Project Name:</legend>
+        <div>
+            <label for="specialProjectName">Special Project Name:</label>
+            <input type="text" id="specialProjectName" name="specialProjectName"
+                minlength="2" maxlength="50" size="10" required> 
+        </div>
       </fieldset>
       <fieldset>
-        <legend>Chimera Details</legend>
-        <div>
-            <label for="mitogene">Select MitoGene:</label>
-            <select name="mitogene" id="mitogene">
-                <option value="">--Select MitoGene--</option>
-                <option value="MT-ATP6">MT-ATP6</option>
-                <option value="MT-ND5">MT-ND5</option>
-                <option value="MT-TL1">MT-TL1</option>
+          <legend>Project Completeion Status:</legend>
+          <label for="transfectionComplete">Is transfection complete?</label>
+            <select name="transfectionComplete" id="transfectionComplete">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
             </select>
-        </div>
-        <div>
-            <label for="vector">Select Vector:</label>
-            <select name="vector" id="vector">
-                <option value="">--Select A Vector--</option>
-                <option value="pHSG398DNA">pHSG 398 DNA</option>
-                <option value="pHSG396DNA">pHSG 396 DNA</option>
-                <option value="PSF-CMV-KAN">PSF-CMV-KAN</option>
-                <option value="PSF-CAG-KAN">PSF-CAG-KAN</option>
-            </select>
-        </div>
-        <div>
-            <label for="providerName">Provider Name:</label>
-            <input type="text" id="providerName" name="providerName"> 
-        </div>
-        <div>
-            <label for="diseaseName">Disease Name:</label>
-            <input type="text" id="diseaseName" name="diseaseName"> 
-        </div>
       </fieldset>
       <fieldset>
         <legend>Storage Information</legend>
         <label for="storageFreezer">Storage Freezer:</label>
             <select name="storageFreezer" id="storageFreezer">
-                <option value="">--Select a freezer--</option>
+                <option value="">--Please choose an option--</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -110,4 +74,33 @@
             <input type="submit" value="Add LabNotebook">
         </div>
     </form>
+
+    <script src="./js/add_labnotebook.js"></script>
+</div>
+<div>
+    <h3>Project Staff</h3>
+    <table id="projectStaff-table">
+        {{!-- Table header section --}}
+        <thead>
+            <tr>
+                <th>Special Project Name</th>
+                <th>Researcher</th>
+                <th>Remove from project</th>
+            </tr>
+        </thead>
+
+        {{!-- Table body section --}}
+        <tbody>
+            {{#each data}}
+            <tr data-value="{{this.ProjectStaffID}}">
+                <td>{{this.SpecialProjectName}}</td>
+                <td>{{this.FullName}}</td>
+                <td><button onclick='removeResearcher({{this.ProjectStaffID}})'>
+                        <i class='fa-solid fa-trash'></i></button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <script src="./js/add_project_staff.js"></script>
 </div>

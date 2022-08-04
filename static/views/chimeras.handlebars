@@ -3,12 +3,12 @@
     <h2>MyT Codon Chimeraplastic Therapeutic Repository:</h2>
 </div>
 
-{{!-- Create a table --}}
 <table>
 
     {{!-- Table header section --}}
     <thead>
         <tr>
+            <th>Special Project Name</th>
             <th>Mito Gene</th>
             <th>Vector Used</th>
             <th>Provider Name</th>
@@ -18,10 +18,9 @@
 
     {{!-- Table body section --}}
     <tbody>
-
-        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value="{{this.ChimeraID}}">
+            <td>{{this.SpecialProjectName}}</td>
             <td>{{this.HgncSymbol}}</td>
             <td>{{this.ProductName}}</td>
             <td>{{this.ProviderName}}</td>
@@ -32,16 +31,16 @@
 </table>
 </div>
     <h3>Add New Chimera</h3>
-    <form action="" method="get">
+    <form id="add_new_chimera">
         <fieldset>
             <legend>Lab Notebook Details</legend>
             <label for="labNotebookID">Select Lab Notebook:</label>
             <select name="labNotebookID" id="labNotebookID">
                 <option value="">--Please choose an option--</option>
                 <option value=NULL>Unknown</option>
-                <option value="1">Provider Inc.; 2019/02/04</option>
-                <option value="2">Very Good Pharmaceuticals; 2020/08/05</option>
-                <option value="3">Healthcare Co.; 2020/01/11</option>
+                {{#each data}}
+                    <option value="{{this.LabNotebookID}}">{{this.SpecialProjectName}}</option>
+                {{/each}}
             </select>
         </fieldset>
         <fieldset>
@@ -50,19 +49,18 @@
                 <label for="mitoGeneID">Select MitoGene:</label>
                 <select name="mitoGeneID" id="mitogeneID">
                     <option value="">--Please choose an option--</option>
-                    <option value="MT-ATP6">MT-ATP6</option>
-                    <option value="MT-ND5">MT-ND5</option>
-                    <option value="MT-TL1">MT-TL1</option>
+                    {{#each data}}
+                        <option value="{{this.MitoGeneID}}">{{this.HgncSymbol}}</option>
+                    {{/each}}
                 </select>
             </div>
             <div>
                 <label for="vectorID">Select Vector:</label>
                 <select name="vectorID" id="vectorID">
                     <option value="">--Please choose an option--</option>
-                    <option value="pHSG398DNA">pHSG 398 DNA</option>
-                    <option value="pHSG396DNA">pHSG 396 DNA</option>
-                    <option value="PSF-CMV-KAN">PSF-CMV-KAN</option>
-                    <option value="PSF-CAG-KAN">PSF-CAG-KAN</option>
+                    {{#each data}}
+                        <option value="{{this.VectorID}}">{{this.ProductName}}</option>
+                    {{/each}}
                 </select>
             </div>
             <div>
