@@ -1,13 +1,23 @@
 <!-- labnotebooks.hbs -->
 <div>
-    <h2>MyT Codon Project Lab Notebooks:</h2>
+    <h2>MyT Codon Lab Notebooks / Project Staff</h2>
 </div>
 <div>
-    <input type="text" id="tableFilter" onkeyup="myFunction()" placeholder="Search Special Projects">
+    <form id="table_filter" method="GET" action="/labnotebooks">
+        <label for="filterProjects">Filter by Projects:</label>
+            <select name="filterProjects" id="filterProjects">
+                <option value=""></option>
+                {{#each fetch.data_2}}
+                    <option value="{{this.HgncSymbol}}">{{this.HgncSymbol}}</option>
+                {{/each}}
+            </select>
+            <input type="submit" value="Go">
+    </form>
+    <a href="/labnotebooks"><button>Reset</button></a>
 </div>
-
 <div>
-    <table id="labnotebook-table">
+<h3>Lab Notebooks:</h3>
+    <table id="labnotebooks-table">
         {{!-- Table header section --}}
         <thead>
             <tr>
@@ -23,7 +33,7 @@
 
         {{!-- Table body section --}}
         <tbody>
-            {{#each data}}
+            {{#each fetch.data}}
             <tr data-value="{{this.LabNotebookID}}">
                 <td>{{this.SpecialProjectName}}</td>
                 <td>{{this.CreationDate}}</td>
@@ -31,7 +41,7 @@
                 <td>{{this.CompletionDate}}</td>
                 <td>{{this.StorageFreezer}}</td>
                 <td>{{this.FreezerBoxLoc}}</td>
-                <td><a href="./labnotebook_update"><i class="fa-solid fa-pen-to-square" ></i></a></td>
+                <td><a href="./labnotebook_update"><button><i class="fa-solid fa-pen-to-square" ></i></button></a></td>
             </tr>
             {{/each}}
         </tbody>
@@ -39,24 +49,33 @@
 </div>
 <div>
     <h3>Add New Lab Notebook</h3>
-    <form id="add_new_labnotebook">
-      <fieldset>
-          <legend>Special Project Name:</legend>
-        <div>
-            <label for="specialProjectName">Special Project Name:</label>
-            <input type="text" id="specialProjectName" name="specialProjectName"
-                minlength="2" maxlength="50" size="10" required> 
-        </div>
-      </fieldset>
-      <fieldset>
-          <legend>Project Completeion Status:</legend>
-          <label for="transfectionComplete">Is transfection complete?</label>
-            <select name="transfectionComplete" id="transfectionComplete">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
-            </select>
-      </fieldset>
-      <fieldset>
+    <form id="add_new_labnotebook" method="POST" action="/add_new_labnotebook">
+    <fieldset>
+        <legend>All Lab Notebooks must have assigned Project Staff</legend>
+        <label for="newProjectPI">Who will be the PI?</label>
+        <select name="newProjectPI" id="newProjectPI">
+            <option value="">--Please choose an option--</option>
+            {{#each fetch.data_3}}
+            <option value="{{this.ResearcherID}}">{{this.FullName}}</option>
+            {{/each}}
+        </select>
+    </fieldset>
+    <fieldset>
+        <legend>Special Project Name:</legend>
+    <div>
+        <input type="text" id="specialProjectName" name="specialProjectName"
+            minlength="2" maxlength="50" size="10" required> 
+    </div>
+    </fieldset>
+    <fieldset>
+        <legend>Project Completion Status:</legend>
+        <label for="transfectionComplete">Is transfection complete?</label>
+        <select name="transfectionComplete" id="transfectionComplete">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+    </fieldset>
+    <fieldset>
         <legend>Storage Information</legend>
         <label for="storageFreezer">Storage Freezer:</label>
             <select name="storageFreezer" id="storageFreezer">
@@ -69,13 +88,11 @@
         <input type="text" id="fBLocPre" name="fBLocPre" size="3" placeholder="FB1">
         <label for="fBLocSuf">-</label>
         <input type="text" id="fBLocSuf" name="fBLocSuf" size="3" placeholder="A1">
-      </fieldset>
+    </fieldset>
         <div>
             <input type="submit" value="Add LabNotebook">
         </div>
     </form>
-
-    <script src="./js/add_labnotebook.js"></script>
 </div>
 <div>
     <h3>Project Staff</h3>
@@ -91,7 +108,7 @@
 
         {{!-- Table body section --}}
         <tbody>
-            {{#each data}}
+            {{#each fetch.data}}
             <tr data-value="{{this.ProjectStaffID}}">
                 <td>{{this.SpecialProjectName}}</td>
                 <td>{{this.FullName}}</td>
@@ -102,5 +119,5 @@
             {{/each}}
         </tbody>
     </table>
-    <script src="./js/add_project_staff.js"></script>
+    <script src="./js/add_projectstaff.js"></script>
 </div>
