@@ -48,24 +48,28 @@ addRowToTable = (data) => {
     let FirstNameCell = document.createElement("td");
     let LastNameCell = document.createElement("td");
     let CredentialCell = document.createElement("td");
+    let DeleteCell = document.createElement("td");
 
-    let deleteCell = document.createElement("td");
+    let DeleteCellButton = document.createElement("button");
 
     ResearcherIDCell.innerText = newRow.ResearcherID;
     FirstNameCell.innerText = newRow.FirstName;
     LastNameCell.innerText = newRow.LastName;
     CredentialCell.innerText = newRow.Credential;
-    deleteCell= document.createElement("button");
-    deleteCell.innerHTML = "<i class='fa-solid fa-trash'>"
-    deleteCell.onclick = function () {
+
+    DeleteCellButton.innerHTML = "<i class='fa-solid fa-trash'></i>";
+    DeleteCellButton.onclick = function() {
         deleteResearcher(newRow.ResearcherID);
     };
-
+    DeleteCell.appendChild(DeleteCellButton);
+    
     row.appendChild(ResearcherIDCell);
     row.appendChild(FirstNameCell);
     row.appendChild(LastNameCell);
     row.appendChild(CredentialCell);
     row.appendChild(DeleteCell);
+
+    row.setAttribute('data-value', newRow.ResearcherID);
 
     currentTable.appendChild(row);
 }

@@ -31,32 +31,104 @@ app.get('/about', function(req, res) {
 });
 
 app.get('/labnotebooks', function(req, res) {
-    let r_query = `SELECT
-                    PS.ProjectStaffID,
-                    CONCAT(R.FirstName," ", R.LastName) AS FullName,
-                    LN.LabNotebookID,
-                    LN.SpecialProjectName,
-                    LN.CreationDate,
-                    CASE
-                        WHEN LN.TransfectionComplete = 1 THEN 'Yes'
-                        ELSE 'No'
-                    END AS TransfectionComplete,
-                    COALESCE(LN.CompletionDate,'N/A') AS CompletionDate,
-                    COALESCE(LN.StorageFreezer,'N/A') AS StorageFreezer,
-                    COALESCE(LN.FreezerBoxLoc,'N/A') AS FreezerBoxLoc
-                    FROM LabNotebooks LN
-                        LEFT JOIN ProjectStaff PS
-                            ON PS.LabNotebookID = LN.LabNotebookID
-                        LEFT JOIN Researchers R
-                            ON R.ResearcherID = PS.ResearcherID;`
+    let r_query;
+    
+    if (req.query.filterProjects === undefined) {
+        r_query = `SELECT
+                        PS.ProjectStaffID,
+                        CONCAT(R.FirstName," ", R.LastName) AS FullName,
+                        LN.LabNotebookID,
+                        LN.SpecialProjectName,
+                        LN.CreationDate,
+                        CASE
+                            WHEN LN.TransfectionComplete = 1 THEN 'Yes'
+                            ELSE 'No'
+                        END AS TransfectionComplete,
+                        COALESCE(LN.CompletionDate,'N/A') AS CompletionDate,
+                        COALESCE(LN.StorageFreezer,'N/A') AS StorageFreezer,
+                        COALESCE(LN.FreezerBoxLoc,'N/A') AS FreezerBoxLoc
+                        FROM LabNotebooks LN
+                            LEFT JOIN ProjectStaff PS
+                                ON PS.LabNotebookID = LN.LabNotebookID
+                            LEFT JOIN Researchers R
+                                ON R.ResearcherID = PS.ResearcherID
+                        ORDER BY LN.CreationDate ASC;`
+    }
+    else {
+        r_query = `SELECT
+                        PS.ProjectStaffID,
+                        CONCAT(R.FirstName," ", R.LastName) AS FullName,
+                        LN.LabNotebookID,
+                        LN.SpecialProjectName,
+                        LN.CreationDate,
+                        CASE
+                            WHEN LN.TransfectionComplete = 1 THEN 'Yes'
+                            ELSE 'No'
+                        END AS TransfectionComplete,
+                        COALESCE(LN.CompletionDate,'N/A') AS CompletionDate,
+                        COALESCE(LN.StorageFreezer,'N/A') AS StorageFreezer,
+                        COALESCE(LN.FreezerBoxLoc,'N/A') AS FreezerBoxLoc
+                        FROM LabNotebooks LN
+                            JOIN ProjectStaff PS
+                                ON PS.LabNotebookID = LN.LabNotebookID
+                            JOIN Researchers R
+                                ON R.ResearcherID = PS.ResearcherID
+                            JOIN Chimeras C
+                                ON C.LabNotebookID = LN.LabNotebookID
+                            JOIN MitoGenes MG
+                                ON MG.MitoGeneID = C.MitoGeneID
+                                AND MG.HgncSymbol = '${req.query.filterProjects}'
+                        ORDER BY LN.CreationDate ASC;`
+    };
+
+    let g_selection_query = `SELECT DISTINCT
+                            HgncSymbol
+                            FROM MitoGenes;`;
+
+    let r_selection_query = `SELECT
+                                ResearcherID,
+                                CONCAT(FirstName," ", LastName) AS FullName
+                                FROM Researchers;`;
+    
     db.pool.query(r_query, function(errors, rows, fields) {
-        res.render('labnotebooks', {data: rows});
-    })
+        db.pool.query(g_selection_query, function(errors, rows_2, fields) {
+            db.pool.query(r_selection_query, function(errors, rows_3, fields) {
+                res.render('labnotebooks', {fetch: {data: rows, data_2: rows_2, data_3: rows_3}});
+            });
+        });
+    });
 });
 
 app.get('/labnotebook_update', function(req, res) {
     res.render('labnotebook_update');
 });
+
+app.post('/add_new_labnotebook', function(req, res) {
+    let data = req.body;
+    let FreezerBoxLoc = data.fBLocPre + '-' + data.fBLocSuf
+    let u1_query = `INSERT INTO LabNotebooks (SpecialProjectName, CreationDate, TransfectionComplete, CompletionDate, StorageFreezer, FreezerBoxLoc)
+                    VALUES
+                    ('${data.specialProjectName}', NOW(), ${data.transfectionComplete}, NULL, '${data.storageFreezer}', '${FreezerBoxLoc}')`;
+    let u2_query = `INSERT INTO ProjectStaff (ResearcherID, LabNotebookID)
+                    VALUES
+                    (${data.newProjectPI}, (SELECT MAX(LabNotebookID) FROM LabNotebooks));`
+    db.pool.query(u1_query, function(error, rows, fields) {
+        db.pool.query(u2_query, function(error, rows, fields) {
+            if (error) {
+                console.log(error)
+                res.sendStatus(400);
+            }});
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else { 
+                res.redirect('/labnotebooks')
+            }
+        });
+    });
+
+
 
 app.get('/researchers', function(req, res) {
     let r_query = `SELECT
@@ -115,15 +187,7 @@ app.put('/put-researcher', function(req,res,next){
     let researcher = parseInt(data.researcherId);
   
     let queryUpdateCredential = `UPDATE Researchers SET Credential = ? WHERE ResearcherID = ?`;
-    let selectResearcher = `SELECT
-                            ResearcherID,
-                            FirstName,
-                            LastName,
-                            CASE
-                                WHEN Credential = 1 THEN 'Yes'
-                                ELSE 'No'
-                            END AS Credential 
-                            FROM Researchers WHERE ResearcherID = ?`
+    let selectResearcher = `SELECT * FROM Researchers WHERE ResearcherID = ?`
   
           // Run the 1st query
           db.pool.query(queryUpdateCredential, [credential, researcher], function(error, rows, fields){
@@ -153,6 +217,7 @@ app.put('/put-researcher', function(req,res,next){
 
 app.delete('/delete-researcher/', function(req,res,next){
     let data = req.body;
+    console.log(data);
     let researcherID = parseInt(data.ResearcherID);
     let deleteProjectStaff = `DELETE FROM ProjectStaff WHERE ResearcherID = ?`;
     let deleteResearchers= `DELETE FROM Researchers WHERE ResearcherID = ?`;
@@ -197,9 +262,20 @@ app.get('/chimeras', function(req, res) {
                         INNER JOIN Vectors V
                             ON V.VectorID = C.VectorID
                         INNER JOIN LabNotebooks LN
-                            ON LN.LabNotebookID = C.LabNotebookID;`
+                            ON LN.LabNotebookID = C.LabNotebookID;`;
+    let l_selection_query = `SELECT DISTINCT
+                                SpecialProjectName
+                            FROM LabNotebooks`;
+    let m_selection_query = `SELECT * FROM MitoGenes;`;
+    let v_selection_query = `SELECT * FROM Vectors`;
     db.pool.query(r_query, function(errors, rows, fields) {
-        res.render('chimeras', {data: rows});
+        db.pool.query(l_selection_query, function(errors, rows_2, fields) {
+            db.pool.query(m_selection_query, function(errors, rows_3, fields) {
+                db.pool.query(v_selection_query, function(errors, rows_4, fields) {
+                    res.render('chimeras', {fetch: {data: rows, data_2: rows_2, data_3: rows_3, data_4: rows_4}});
+                });
+            });
+        });
     })
 });
 
@@ -244,7 +320,7 @@ app.post('/add_new_gene', function(req, res) {
                     res.sendStatus(400);
                 }
                 else {
-                    res.send(rows);
+                    res.redirect('/genes');
                 }
             })
         }
@@ -262,9 +338,12 @@ app.get('/vectors', function(req, res) {
                     FROM Vectors V 
                         INNER JOIN AntiBacterials AB 
                             ON AB.AntiBacterialID = V.AntiBacterialID;`;
+    let selection_query = 'SELECT * FROM AntiBacterials;';
     db.pool.query(r_query, function(errors, rows, fields) {
-        res.render('vectors', {data: rows});
-    })
+        db.pool.query(selection_query, function(errors, rows_2, fields) {
+            res.render('vectors', {fetch: {data: rows, data_2: rows_2}});
+        });
+    });
 });
 
 app.post('/add_new_vector', function(req, res) {

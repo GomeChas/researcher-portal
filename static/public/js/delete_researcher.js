@@ -33,7 +33,7 @@ function deleteRow(researcherID){
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == researcherID) {
-            table.deleteRow(i);         
+            table.deleteRow(i);
             break;
        }
     }
