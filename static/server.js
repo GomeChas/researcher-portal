@@ -244,7 +244,7 @@ app.delete('/delete-researcher/', function(req,res,next){
               }
   })});
 
-  app.get('/chimeras', function(req, res) {
+app.get('/chimeras', function(req, res) {
     let r_query = `SELECT
                     LN.LabNotebookID,
                     LN.SpecialProjectName,
@@ -296,7 +296,7 @@ app.post('/add_new_gene', function(req, res) {
 
     let u_query = `INSERT INTO MitoGenes (HgncID, HgncSymbol, HgncName, NCBIGeneID, UniProtID)
                     VALUES
-                    ('${data.HgncID}','${data.HgncSymbol}','${data.HgncName}','${data.NCBIGeneID}','${data.UniProtID}')`;
+                    (${data.HgncID},'${data.HgncSymbol}','${data.HgncName}',${data.NCBIGeneID},'${data.UniProtID}')`;
     db.pool.query(u_query, function(error, rows, fields) {
 
         if (error) {
@@ -318,7 +318,7 @@ app.post('/add_new_gene', function(req, res) {
                     res.sendStatus(400);
                 }
                 else {
-                    res.redirect('/genes');
+                    res.send(data);
                 }
             })
         }
