@@ -41,7 +41,7 @@ addGene.addEventListener("submit", function(e) {
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
                 console.log("There was an error with input")
             }
-        }
+        };
     xhttp.send(JSON.stringify(data));
 })
 
@@ -50,8 +50,7 @@ addRowToTable = (data) => {
 
     let newRowIndex = currentTable.rows.length;
 
-    let parsedData = JSON.parse(data);
-    let newRow = parsedData[parsedData.length - 1]
+    let newRow = JSON.parse(data);
 
     let row = document.createElement("TR");
     let HgncIDCell = document.createElement("td");
