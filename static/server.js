@@ -204,9 +204,50 @@ app.get('/chimeras', function(req, res) {
 });
 
 app.get('/genes', function(req, res) {
-    let r_query = 'SELECT * FROM MitoGenes;';
+    let r_query = `SELECT
+                    MitoGeneID,
+                    HgncID,
+                    HgncSymbol,
+                    HgncName,
+                    COALESCE(NCBIGeneID, 'N/A') AS NCBIGeneID,
+                    COALESCE(UniProtID, 'N/A') AS UniProtID
+                    FROM MitoGenes;`;
     db.pool.query(r_query, function(errors, rows, fields) {
         res.render('genes', {data: rows});
+    })
+});
+
+app.post('/add_new_gene', function(req, res) {
+    let data = req.body;
+
+    let u_query = `INSERT INTO MitoGenes (HgncID, HgncSymbol, HgncName, NCBIGeneID, UniProtID)
+                    VALUES
+                    ('${data.HgncID}','${data.HgncSymbol}','${data.HgncName}','${data.NCBIGeneID}','${data.UniProtID}')`;
+    db.pool.query(u_query, function(error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            let r_query = `SELECT
+                            MitoGeneID,
+                            HgncID,
+                            HgncSymbol,
+                            HgncName,
+                            COALESCE(NCBIGeneID, 'N/A') AS NCBIGeneID,
+                            COALESCE(UniProtID, 'N/A') AS UniProtID
+                            FROM MitoGenes;`;
+            db.pool.query(r_query, function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    res.send(rows);
+                }
+            })
+        }
     })
 });
 
@@ -223,6 +264,42 @@ app.get('/vectors', function(req, res) {
                             ON AB.AntiBacterialID = V.AntiBacterialID;`;
     db.pool.query(r_query, function(errors, rows, fields) {
         res.render('vectors', {data: rows});
+    })
+});
+
+app.post('/add_new_vector', function(req, res) {
+    let data = req.body;
+
+    let u_query = `INSERT INTO Vectors (ProductName, AntiBacterialID, VectorSize, RECutSites)
+                    VALUES
+                    ('${data.ProductName}','${data.AntiBacterialID}','${data.VectorSize}','${data.RECutSites}')`;
+    db.pool.query(u_query, function(error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            let r_query = `SELECT 
+                            V.VectorID,
+                            V.ProductName, 
+                            V.AntiBacterialID,
+                            AB.AntiBacterialName, 
+                            VectorSize, 
+                            RECutSites 
+                            FROM Vectors V 
+                                INNER JOIN AntiBacterials AB 
+                                    ON AB.AntiBacterialID = V.AntiBacterialID;`;
+            db.pool.query(r_query, function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    res.send(rows);
+                }
+            })
+        }
     })
 });
 

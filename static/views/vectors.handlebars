@@ -3,8 +3,7 @@
     <h2>Vectors used in the development of chimeraplastic therapeutics:</h2>
 </div>
 
-{{!-- Create a table --}}
-<table>
+<table id="vector-table">
 
     {{!-- Table header section --}}
     <thead>
@@ -19,7 +18,6 @@
     {{!-- Table body section --}}
     <tbody>
 
-        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
         {{#each data}}
         <tr dtat-value="{{this.VectorID}}">
             <td>{{this.ProductName}}</td>
@@ -33,7 +31,7 @@
 
 <div>
     <h3>Add New Vector</h3>
-    <form action="" method="get">
+    <form id="add_new_vector">
         <fieldset>
             <section>
                 <label for="productName">Product Name:</label>
@@ -91,3 +89,5 @@
         </div>
     </form>
 </div>
+
+<script src="./js/add_vector.js"></script>

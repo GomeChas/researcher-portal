@@ -3,8 +3,7 @@
     <h2>Mitochondrial genes used in chimeraplastic therapeutics:</h2>
 </div>
 
-<table>
-
+<table id="gene-table">
     {{!-- Table header section --}}
     <thead>
         <tr>
@@ -18,6 +17,8 @@
 
     {{!-- Table body section --}}
     <tbody>
+
+        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
         {{#each data}}
         <tr>
             <td>{{this.HgncID}}</td>
@@ -32,22 +33,22 @@
 
 <div>
     <h3>Add New MitoGene</h3>
-    <form action="" method="get">
+    <form id="add_new_gene">
         <fieldset>
             <section>
                 <label for="hgnc_id">HGNC ID:</label>
                 <input type="number" id="hgnc_id" name="hgnc_id"
-                    min="100" max="10000">
+                    min="100" max="10000" required>
             </section>
             <section>
                 <label for="hgnc_symbol">HGNC MitoGene Symbol:</label>
-                <input type="text" id="hgnc_symbol" name="hgnc_symbol" required
-                    minlength="1" maxlength="10" size="10">
+                <input type="text" id="hgnc_symbol" name="hgnc_symbol"
+                    minlength="1" maxlength="10" size="10" required>
             </section>
             <section>
                 <label for="hgnc_name">HGNC MitoGene Name:</label>
                 <textarea id="hgnc_name" name="hgnc_name"
-                    rows="4" cols="45">
+                    rows="4" cols="45" required>
                 </textarea>
             </section>
             <section>
@@ -57,7 +58,7 @@
             </section>
             <section>
                 <label for="uniprot_id">UniProt ID:</label>
-                <input type="text" id="uniprot_id" name="uniprot_id" required
+                <input type="text" id="uniprot_id" name="uniprot_id"
                     minlength="1" maxlength="10" size="10">
             </section>
         </fieldset>
@@ -72,3 +73,5 @@
         <a href="https://www.ncbi.nlm.nih.gov/gene" target="_blank">NCBI Gene</a>
         <a href="https://www.uniprot.org/" target="_blank">UniProt Home</a>
 </div>
+
+<script src="./js/add_mitogene.js"></script>
