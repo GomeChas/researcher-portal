@@ -128,8 +128,6 @@ app.post('/add_new_labnotebook', function(req, res) {
         });
     });
 
-
-
 app.get('/researchers', function(req, res) {
     let r_query = `SELECT
                     ResearcherID,
@@ -246,7 +244,7 @@ app.delete('/delete-researcher/', function(req,res,next){
               }
   })});
 
-app.get('/chimeras', function(req, res) {
+  app.get('/chimeras', function(req, res) {
     let r_query = `SELECT
                     LN.LabNotebookID,
                     LN.SpecialProjectName,

@@ -1,4 +1,5 @@
 <!-- vectors.hbs-->
+
 <div>
     <h2>Vectors used in the development of chimeraplastic therapeutics:</h2>
 </div>
@@ -18,8 +19,8 @@
     {{!-- Table body section --}}
     <tbody>
 
-        {{#each data}}
-        <tr dtat-value="{{this.VectorID}}">
+        {{#each fetch.data}}
+        <tr data-value="{{this.VectorID}}">
             <td>{{this.ProductName}}</td>
             <td>{{this.AntiBacterialName}}</td>
             <td>{{this.VectorSize}}</td>
@@ -42,7 +43,7 @@
                 <label for="antiBacterialID">AntiBacterial Selection:</label>
                 <select name="antiBacterialID" id="antiBacterialID">
                     <option value="">--Please choose an option--</option>
-                    {{#each data}}
+                    {{#each fetch.data_2}}
                     <option value="{{this.AntiBacterialID}}">{{this.AntiBacterialName}}</option>
                     {{/each}}
                 </select>

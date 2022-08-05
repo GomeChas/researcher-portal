@@ -3,8 +3,7 @@
     <h2>MyT Codon Chimeraplastic Therapeutic Repository:</h2>
 </div>
 
-<table>
-
+<table id="chimera-table">
     {{!-- Table header section --}}
     <thead>
         <tr>
@@ -18,7 +17,7 @@
 
     {{!-- Table body section --}}
     <tbody>
-        {{#each data}}
+        {{#each fetch.data}}
         <tr data-value="{{this.ChimeraID}}">
             <td>{{this.SpecialProjectName}}</td>
             <td>{{this.HgncSymbol}}</td>
@@ -38,7 +37,7 @@
             <select name="labNotebookID" id="labNotebookID">
                 <option value="">--Please choose an option--</option>
                 <option value=NULL>Unknown</option>
-                {{#each data}}
+                {{#each fetch.data_2}}
                     <option value="{{this.LabNotebookID}}">{{this.SpecialProjectName}}</option>
                 {{/each}}
             </select>
@@ -49,7 +48,7 @@
                 <label for="mitoGeneID">Select MitoGene:</label>
                 <select name="mitoGeneID" id="mitogeneID">
                     <option value="">--Please choose an option--</option>
-                    {{#each data}}
+                    {{#each fetch.data_3}}
                         <option value="{{this.MitoGeneID}}">{{this.HgncSymbol}}</option>
                     {{/each}}
                 </select>
@@ -58,7 +57,7 @@
                 <label for="vectorID">Select Vector:</label>
                 <select name="vectorID" id="vectorID">
                     <option value="">--Please choose an option--</option>
-                    {{#each data}}
+                    {{#each fetch.data_4}}
                         <option value="{{this.VectorID}}">{{this.ProductName}}</option>
                     {{/each}}
                 </select>
