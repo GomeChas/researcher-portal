@@ -2,7 +2,7 @@
 <div>
     <h2>MyT Codon Researchers:</h2>
 </div>
-
+{{!-- Create a table --}}
 <table id="researchers-table">
 
     {{!-- Table header section --}}
@@ -18,6 +18,8 @@
 
     {{!-- Table body section --}}
     <tbody>
+
+        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
         {{#each data}}
         <tr data-value="{{this.ResearcherID}}">
             <td>{{this.ResearcherID}}</td>
@@ -31,7 +33,7 @@
 </table>
 <script src="./js/delete_researcher.js"></script>
 <h3>Add New Researcher</h3>
-<form id="add_new_researcher">
+<form id="add_new_researcher" method="POST" action="/add_new_researcher">
     <fieldset>
         <section>
             <label for="FirstName">First Name:</label>
@@ -58,8 +60,6 @@
     </div>
 </form>
 
-<script src="./js/add_researcher.js"></script>
-
 <h3>Update Credential</h3>
 <form id="update_researcher_form">
     <fieldset>
@@ -76,7 +76,7 @@
         <legend>Active Credentials</legend>
             <div>
             <label for="Credential">Active credential?</label>
-            <select name="Credential" id="Credential">
+            <select name="Credential" id="updateCredential">
                 <option value="1">Yes</option>
                 <option value="0">No</option>
             </select>

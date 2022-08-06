@@ -165,34 +165,16 @@ app.post('/add_new_researcher', function(req, res) {
 
     let u_query = `INSERT INTO Researchers (FirstName, LastName, Credential)
                     VALUES
-                    ('${data.FirstName}','${data.LastName}','${data.Credential}')`;
+                    ('${data.FirstName}','${data.LastName}',${data.Credential})`;
     db.pool.query(u_query, function(error, rows, fields) {
-
         if (error) {
             console.log(error)
             res.sendStatus(400);
         }
         else {
-            let r_query = `SELECT
-                            ResearcherID,
-                            FirstName,
-                            LastName,
-                            CASE
-                                WHEN Credential = 1 THEN 'Yes'
-                                ELSE 'No'
-                            END AS Credential
-                            FROM Researchers;`;
-            db.pool.query(r_query, function(error, rows, fields) {
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                else {
-                    res.send(rows);
-                }
-            })
+            res.redirect('/researchers')
         }
-    })
+    });
 });
 
 app.put('/put-researcher', function(req,res,next){
@@ -203,32 +185,26 @@ app.put('/put-researcher', function(req,res,next){
   
     let queryUpdateCredential = `UPDATE Researchers SET Credential = ? WHERE ResearcherID = ?`;
     let selectResearcher = `SELECT * FROM Researchers WHERE ResearcherID = ?`
-  
-          // Run the 1st query
+    
           db.pool.query(queryUpdateCredential, [credential, researcher], function(error, rows, fields){
-              if (error) {
-  
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-              console.log(error);
-              res.sendStatus(400);
-              }
-  
-              // If there was no error, we run our second query and return that data so we can use it to update the people's
-              // table on the front-end
-              else
-              {
-                  // Run the second query
-                  db.pool.query(selectResearcher, [researcher], function(error, rows, fields) {
-  
-                      if (error) {
-                          console.log(error);
-                          res.sendStatus(400);
-                      } else {
-                          res.send(rows);
-                      }
-                  })
-              }
-  })});
+            if (error) {
+            console.log(error);
+            res.sendStatus(400);
+            }
+            else {
+                db.pool.query(selectResearcher, [researcher], function(error, rows, fields) {
+
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } 
+                else {
+                    res.send(data);
+                }
+            });
+        }
+    });
+});
 
 app.delete('/delete-researcher/', function(req,res,next){
     let data = req.body;
