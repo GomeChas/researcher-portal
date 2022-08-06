@@ -119,5 +119,27 @@
             {{/each}}
         </tbody>
     </table>
-    <script src="./js/add_projectstaff.js"></script>
+</div>
+<div>
+    <form id="add_staff_to_project" method="POST" action="/add_staff_to_project">
+    <fieldset>
+        <legend>Add Staff to a Project</legend>
+        <label for="staff_to_project">Select a project:</label>
+        <select name="staff_to_project" id="staff_to_project">
+            <option value="">--Please choose an option--</option>
+            {{#each fetch.data}}
+            <option value="{{this.LabNotebookID}}">{{this.SpecialProjectName}}</option>
+            {{/each}}
+        </select>
+        <label for="add_staff">Select a Researcher:</label>
+        <select name="add_staff" id="add_staff">
+            <option value="">--Please choose an option--</option>
+            {{#each fetch.data_3}}
+            <option value="{{this.ResearcherID}}">{{this.FullName}}</option>
+            {{/each}}
+        </select>
+        <div>
+            <input type="submit" value="Add Staff">
+        </div>
+    </fieldset>
 </div>

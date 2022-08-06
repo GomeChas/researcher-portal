@@ -124,9 +124,26 @@ app.post('/add_new_labnotebook', function(req, res) {
         }
         else { 
                 res.redirect('/labnotebooks')
-            }
-        });
+        }
     });
+});
+
+app.post('/add_staff_to_project', function(req, res) {
+    let data = req.body;
+
+    let u_query = `INSERT INTO ProjectStaff (ResearcherID, LabNotebookID)
+                    VALUES
+                    (${data.add_staff}, ${data.staff_to_project});`
+    db.pool.query(u_query, function(error, rows, fields) {
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            res.redirect('/labnotebooks')
+        }
+    });
+});
 
 app.get('/researchers', function(req, res) {
     let r_query = `SELECT
@@ -215,7 +232,7 @@ app.put('/put-researcher', function(req,res,next){
 
 app.delete('/delete-researcher/', function(req,res,next){
     let data = req.body;
-    console.log(data);
+
     let researcherID = parseInt(data.ResearcherID);
     let deleteProjectStaff = `DELETE FROM ProjectStaff WHERE ResearcherID = ?`;
     let deleteResearchers= `DELETE FROM Researchers WHERE ResearcherID = ?`;
