@@ -39,6 +39,7 @@ CREATE OR REPLACE TABLE Vectors (
 
 CREATE OR REPLACE TABLE LabNotebooks (
     LabNotebookID int NOT NULL AUTO_INCREMENT,
+    SpecialProjectName varchar(100) UNIQUE,
     CreationDate datetime NOT NULL,
     TransfectionComplete tinyint,
     CompletionDate datetime,
@@ -100,11 +101,13 @@ VALUES
 (2, 1),
 (2, 2),
 (3, 3),
-(1, 3);
+(1, 3),
+(3, 4);
 
 
 INSERT INTO LabNotebooks
 (
+    SpecialProjectName,
     CreationDate,
     TransfectionComplete,
     CompletionDate,
@@ -112,10 +115,10 @@ INSERT INTO LabNotebooks
     FreezerBoxLoc
 )
 VALUES
-('2019/02/04 18:34:21',TRUE,'2020/08/12 14:46:12',1,'FB1-A3'),
-('2020/08/05 3:25:27',TRUE,'2022/05/28 3:54:53',2,'FB4-H10'),
-('2020/01/11 21:23:31',TRUE,'2021/08/25 3:41:28',1,'FB1-B3'),
-('2022/06/23 20:57:49',FALSE,NULL,NULL,NULL);
+('SP001','2019/02/04 18:34:21',TRUE,'2020/08/12 14:46:12',1,'FB1-A3'),
+('SP003','2020/08/05 3:25:27',TRUE,'2022/05/28 3:54:53',2,'FB4-H10'),
+('SP004','2020/01/11 21:23:31',TRUE,'2021/08/25 3:41:28',1,'FB1-B3'),
+('SP007','2022/06/23 20:57:49',FALSE,NULL,NULL,NULL);
 
 INSERT INTO Chimeras
 (

@@ -1,81 +1,90 @@
 -- List all LabNotebooks on the home page with the associated Researchers' names
 SELECT
-a.Project_Staff,
-C.ProviderName,
-C.DiseaseName,
+PS.ProjectStaffID,
+CONCAT(R.FirstName," ", R.LastName) AS FullName,
+LN.LabNotebookID,
+LN.SpecialProjectName,
 LN.CreationDate,
-LN.TransfectionComplete,
-LN.CompletionDate,
-LN.StorageFreezer,
-LN.FreezerBoxLoc
-FROM (
-    SELECT
-        b.LabNotebookID,
-        GROUP_CONCAT(Name) AS Project_Staff
-        FROM (
-            SELECT
-            PS.ProjectStaffID,
-            PS.LabNotebookID,
-            CONCAT(R.FirstName,' ',R.LastName) AS Name
-            FROM ProjectStaff PS
-                INNER JOIN Researchers R
-                    ON PS.ResearcherID = R.ResearcherID
-            ) b
-        GROUP BY b.LabNotebookID
-    ) a
-    JOIN LabNotebooks LN
-    	ON a.LabNotebookID = LN.LabNotebookID
-    JOIN Chimeras C
-    	ON C.LabNotebookID = LN.LabNotebookID
+CASE
+    WHEN LN.TransfectionComplete = 1 THEN 'Yes'
+    ELSE 'No'
+END AS TransfectionComplete,
+COALESCE(LN.CompletionDate,'N/A') AS CompletionDate,
+COALESCE(LN.StorageFreezer,'N/A') AS StorageFreezer,
+COALESCE(LN.FreezerBoxLoc,'N/A') AS FreezerBoxLoc
+FROM LabNotebooks LN
+    LEFT JOIN ProjectStaff PS
+        ON PS.LabNotebookID = LN.LabNotebookID
+    LEFT JOIN Researchers R
+        ON R.ResearcherID = PS.ResearcherID
+;
+-- List distinct SpecialProjectNames for selection --
+SELECT DISTINCT
+SpecialProjectName
+FROM LabNotebooks
 ;
 -- List all Researchers on the Researchers page
 SELECT
-FirstName AS `First Name`,
-LastName AS `Last Name`,
-Credential AS `Active Credential`
+ResearcherID,
+FirstName,
+LastName,
+CASE
+    WHEN Credential = 1 THEN 'Yes'
+    ELSE 'No'
+END AS Credential
 FROM Researchers
 ;
 -- List all MitoGenes on the Genes page
 SELECT
-HgncID AS `HGNC ID`,
-HgncSymbol AS `HGNC Symbol`,
-HgncName AS `HGNC Name`,
-NCBIGeneID AS `NCBI ID`,
-UniProtID AS `UniProt ID`
+MitoGeneID,
+HgncID,
+HgncSymbol,
+HgncName,
+COALESCE(NCBIGeneID, 'N/A') AS NCBIGeneID,
+COALESCE(UniProtID, 'N/A') AS UniProtID
 FROM MitoGenes
 ;
 -- List all Vectors on the Vectors page with the AntiBacterial name
-SELECT
-ProductName AS `Product Name`,
-AB.AntiBacterialName AS `AntiBacterial Selection`,
-VectorSize AS `Vector Size`,
-RECutSites AS `Restriction Enzymes`
-FROM Vectors V
-    INNER JOIN AntiBacterials AB
+SELECT 
+V.VectorID,
+V.ProductName, 
+V.AntiBacterialID,
+AB.AntiBacterialName, 
+VectorSize, 
+RECutSites 
+FROM Vectors V 
+    INNER JOIN AntiBacterials AB 
         ON AB.AntiBacterialID = V.AntiBacterialID
 ;
 -- List all Chimeras on the Chimeras page
 SELECT
-MG.HgncSymbol AS `Mitochondrial Gene`,
-V.ProductName AS `Vector Used`,
-ProviderName AS `Provider Name`,
-DiseaseName AS `Disease/Phenotype`
+LN.LabNotebookID,
+LN.SpecialProjectName,
+MG.MitoGeneID,
+MG.HgncSymbol,
+V.VectorID,
+V.ProductName,
+ProviderName,
+DiseaseName
 FROM Chimeras C
     INNER JOIN MitoGenes MG
         ON MG.MitoGeneID = C.MitoGeneID
     INNER JOIN Vectors V
         ON V.VectorID = C.VectorID
+    INNER JOIN LabNotebooks LN
+        ON LN.LabNotebookID = C.LabNotebookID
 ;
-
 -- List all AntiBacterials on the AntiBacterials page
 SELECT
-AntiBacterialName AS `AntiBacterial Name`
-FROM AntiBacterials;
+*
+FROM AntiBacterials
+;
 
 -- For the following INSERT functionalities, the colon : character will be used to denote variables
 
 -- Create a new LabNotebook --------------------
 INSERT INTO LabNotebooks(
+    SpecialProjectName,
     CreationDate,
     TransfectionComplete,
     CompletionDate,
@@ -83,7 +92,7 @@ INSERT INTO LabNotebooks(
     FreezerBoxLoc
 )
 VALUES
-(:currentDate, 0, NULL, :storageFreezerInput, :freezerBoxLocInput);
+(:SpecialProjectName, :currentDate, 0, NULL, :storageFreezerInput, :freezerBoxLocInput);
 
 -- When creating a new LabNotebook, a ProjectStaff entry will be created for each staff member selected
 INSERT INTO ProjectStaff (
@@ -92,17 +101,6 @@ INSERT INTO ProjectStaff (
 )
 VALUES
 (:researcherIDSelection, :newLabNotebookID);
-
--- Creating a LabNotebook also creates a Chimera
-INSERT INTO Chimeras (
-    LabNotebookID,
-    MitoGeneID,
-    VectorID,
-    ProviderName,
-    DiseaseName
-)
-VALUES
-(:newLabNotebookID, :mitoGeneSelection, :vectorSelection, :providerNameInput, :diseaseNameInput);
 
 -- Create a new Researcher --------------------
 INSERT INTO Researchers (
@@ -172,12 +170,15 @@ VALUES
 DELETE FROM Researchers
     WHERE ResearcherID = :selectedResearcherID;
 
--- Search for an existing Researcher --------------------
+-- Filter ProjectStaff by Project --------------------
 SELECT
-FirstName AS `First Name`,
-LastName AS `Last Name`,
-Credential AS `Active Credential`
-FROM Researchers
-WHERE FirstName = :searchInput
-    OR LastName = :searchInput
-ORDER BY ResearcherID ASC;
+PS.ProjectStaffID,
+LN.SpecialProjectName,
+CONCAT(R.FirstName," ", R.LastName) AS FullName
+FROM ProjectStaff PS
+    JOIN LabNotebooks LN
+        ON LN.LabNotebookID = PS.LabNotebookID
+    JOIN Researchers R
+        ON R.ResearcherID = PS.ResearcherID
+WHERE LN.SpecialProjectName = :selectedSpecialProjectName
+ORDER BY FullName ASC;
