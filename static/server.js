@@ -31,12 +31,10 @@ app.get('/about', function(req, res) {
 });
 
 app.get('/labnotebooks', function(req, res) {
-    let r_query;
+    let r1_query;
     
     if (req.query.filterProjects === undefined) {
-        r_query = `SELECT
-                        PS.ProjectStaffID,
-                        CONCAT(R.FirstName," ", R.LastName) AS FullName,
+        r1_query = `SELECT
                         LN.LabNotebookID,
                         LN.SpecialProjectName,
                         LN.CreationDate,
@@ -48,16 +46,10 @@ app.get('/labnotebooks', function(req, res) {
                         COALESCE(LN.StorageFreezer,'N/A') AS StorageFreezer,
                         COALESCE(LN.FreezerBoxLoc,'N/A') AS FreezerBoxLoc
                         FROM LabNotebooks LN
-                            LEFT JOIN ProjectStaff PS
-                                ON PS.LabNotebookID = LN.LabNotebookID
-                            LEFT JOIN Researchers R
-                                ON R.ResearcherID = PS.ResearcherID
-                        ORDER BY LN.CreationDate ASC;`
+                        ORDER BY LN.SpecialProjectName ASC;`
     }
     else {
-        r_query = `SELECT
-                        PS.ProjectStaffID,
-                        CONCAT(R.FirstName," ", R.LastName) AS FullName,
+        r1_query = `SELECT
                         LN.LabNotebookID,
                         LN.SpecialProjectName,
                         LN.CreationDate,
@@ -69,17 +61,27 @@ app.get('/labnotebooks', function(req, res) {
                         COALESCE(LN.StorageFreezer,'N/A') AS StorageFreezer,
                         COALESCE(LN.FreezerBoxLoc,'N/A') AS FreezerBoxLoc
                         FROM LabNotebooks LN
-                            JOIN ProjectStaff PS
-                                ON PS.LabNotebookID = LN.LabNotebookID
-                            JOIN Researchers R
-                                ON R.ResearcherID = PS.ResearcherID
                             JOIN Chimeras C
                                 ON C.LabNotebookID = LN.LabNotebookID
                             JOIN MitoGenes MG
                                 ON MG.MitoGeneID = C.MitoGeneID
                                 AND MG.HgncSymbol = '${req.query.filterProjects}'
-                        ORDER BY LN.CreationDate ASC;`
+                        ORDER BY LN.SpecialProjectName ASC;`
     };
+
+    let r2_query = `SELECT
+                    PS.ProjectStaffID,
+                    LN.LabNotebookID,
+                    LN.SpecialProjectName,
+                    R.ResearcherID,
+                    CONCAT(R.FirstName," ", R.LastName) AS FullName
+                    FROM ProjectStaff PS 
+                    JOIN LabNotebooks LN
+                        ON LN.LabNotebookID = PS.LabNotebookID
+                    JOIN Researchers R
+                        ON R.ResearcherID = PS.ResearcherID
+                    ORDER BY LN.SpecialProjectName ASC,
+                    FullName ASC;`
 
     let g_selection_query = `SELECT DISTINCT
                             HgncSymbol
@@ -90,17 +92,15 @@ app.get('/labnotebooks', function(req, res) {
                                 CONCAT(FirstName," ", LastName) AS FullName
                                 FROM Researchers;`;
     
-    db.pool.query(r_query, function(errors, rows, fields) {
-        db.pool.query(g_selection_query, function(errors, rows_2, fields) {
-            db.pool.query(r_selection_query, function(errors, rows_3, fields) {
-                res.render('labnotebooks', {fetch: {data: rows, data_2: rows_2, data_3: rows_3}});
+    db.pool.query(r1_query, function(errors, rows, fields) {
+        db.pool.query(r2_query, function(errors, rows_2, fields) {
+            db.pool.query(g_selection_query, function(errors, rows_3, fields) {
+                db.pool.query(r_selection_query, function(errors, rows_4, fields) {
+                    res.render('labnotebooks', {fetch: {notebooks: rows, projectstaff: rows_2, genes: rows_3, researchers: rows_4}});
+                });
             });
         });
     });
-});
-
-app.get('/labnotebook_update', function(req, res) {
-    res.render('labnotebook_update');
 });
 
 app.post('/add_new_labnotebook', function(req, res) {

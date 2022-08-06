@@ -7,7 +7,7 @@
         <label for="filterProjects">Filter by Projects:</label>
             <select name="filterProjects" id="filterProjects">
                 <option value=""></option>
-                {{#each fetch.data_2}}
+                {{#each fetch.genes}}
                     <option value="{{this.HgncSymbol}}">{{this.HgncSymbol}}</option>
                 {{/each}}
             </select>
@@ -27,13 +27,12 @@
                 <th>Completion Date</th>
                 <th>Storage Freezer</th>
                 <th>Freezer Box Location</th>
-                <th>Update</th>
             </tr>
         </thead>
 
         {{!-- Table body section --}}
         <tbody>
-            {{#each fetch.data}}
+            {{#each fetch.notebooks}}
             <tr data-value="{{this.LabNotebookID}}">
                 <td>{{this.SpecialProjectName}}</td>
                 <td>{{this.CreationDate}}</td>
@@ -41,7 +40,6 @@
                 <td>{{this.CompletionDate}}</td>
                 <td>{{this.StorageFreezer}}</td>
                 <td>{{this.FreezerBoxLoc}}</td>
-                <td><a href="./labnotebook_update"><button><i class="fa-solid fa-pen-to-square" ></i></button></a></td>
             </tr>
             {{/each}}
         </tbody>
@@ -55,7 +53,7 @@
         <label for="newProjectPI">Who will be the PI?</label>
         <select name="newProjectPI" id="newProjectPI">
             <option value="">--Please choose an option--</option>
-            {{#each fetch.data_3}}
+            {{#each fetch.researchers}}
             <option value="{{this.ResearcherID}}">{{this.FullName}}</option>
             {{/each}}
         </select>
@@ -108,7 +106,7 @@
 
         {{!-- Table body section --}}
         <tbody>
-            {{#each fetch.data}}
+            {{#each fetch.projectstaff}}
             <tr data-value="{{this.ProjectStaffID}}">
                 <td>{{this.SpecialProjectName}}</td>
                 <td>{{this.FullName}}</td>
@@ -127,14 +125,14 @@
         <label for="staff_to_project">Select a project:</label>
         <select name="staff_to_project" id="staff_to_project">
             <option value="">--Please choose an option--</option>
-            {{#each fetch.data}}
+            {{#each fetch.notebooks}}
             <option value="{{this.LabNotebookID}}">{{this.SpecialProjectName}}</option>
             {{/each}}
         </select>
         <label for="add_staff">Select a Researcher:</label>
         <select name="add_staff" id="add_staff">
             <option value="">--Please choose an option--</option>
-            {{#each fetch.data_3}}
+            {{#each fetch.researchers}}
             <option value="{{this.ResearcherID}}">{{this.FullName}}</option>
             {{/each}}
         </select>
