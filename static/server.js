@@ -379,37 +379,42 @@ app.get('/vectors', function(req, res) {
 app.post('/add_new_vector', function(req, res) {
     let data = req.body;
 
+    let antiBacterialID = parseInt(data.antiBacterialID);
+    if(isNaN(antiBacterialID)){
+        antiBacterialID = 'NULL'
+    };
+
+    let vectorSize = parseInt(data.vectorSize);
+    if(isNaN(vectorSize)){
+        vectorSize = 'NULL'
+    };
+
+    let inputRECutSites = data.reCutSite;
+    console.log(inputRECutSites)
+    let RECutSitesValue = '';
+    for (let i = 0; i < inputRECutSites.length; i++) {
+        if (RECutSitesValue.length == 0) {
+            let newRECutSite = inputRECutSites[i]
+            RECutSitesValue += newRECutSite;
+        }
+        else {
+            let newRECutSite = inputRECutSites[i]
+            RECutSitesValue += `, ${newRECutSite}`;
+        }
+    };
+
     let u_query = `INSERT INTO Vectors (ProductName, AntiBacterialID, VectorSize, RECutSites)
                     VALUES
-                    ('${data.ProductName}','${data.AntiBacterialID}','${data.VectorSize}','${data.RECutSites}')`;
+                    ('${data.productName}',${antiBacterialID},${vectorSize},'${RECutSitesValue}')`;
     db.pool.query(u_query, function(error, rows, fields) {
-
         if (error) {
             console.log(error)
             res.sendStatus(400);
         }
         else {
-            let r_query = `SELECT 
-                            V.VectorID,
-                            V.ProductName, 
-                            V.AntiBacterialID,
-                            AB.AntiBacterialName, 
-                            VectorSize, 
-                            RECutSites 
-                            FROM Vectors V 
-                                INNER JOIN AntiBacterials AB 
-                                    ON AB.AntiBacterialID = V.AntiBacterialID;`;
-            db.pool.query(r_query, function(error, rows, fields) {
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                else {
-                    res.send(rows);
-                }
-            })
-        }
-    })
+            res.redirect('/vectors')
+            }
+    });
 });
 
 app.get('/antibacterials', function(req, res) {
