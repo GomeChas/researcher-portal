@@ -244,10 +244,10 @@ app.delete('/delete-researcher/', function(req,res,next){
               }
   })});
 
-app.get('/chimeras', function(req, res) {
+  app.get('/chimeras', function(req, res) {
     let r_query = `SELECT
                     LN.LabNotebookID,
-                    LN.SpecialProjectName,
+                    COALESCE(LN.SpecialProjectName, 'N/A') AS SpecialProjectName,
                     MG.MitoGeneID,
                     MG.HgncSymbol,
                     V.VectorID,
@@ -259,7 +259,7 @@ app.get('/chimeras', function(req, res) {
                             ON MG.MitoGeneID = C.MitoGeneID
                         INNER JOIN Vectors V
                             ON V.VectorID = C.VectorID
-                        INNER JOIN LabNotebooks LN
+                        LEFT JOIN LabNotebooks LN
                             ON LN.LabNotebookID = C.LabNotebookID;`;
     let l_selection_query = `SELECT DISTINCT
                                 SpecialProjectName
@@ -275,6 +275,38 @@ app.get('/chimeras', function(req, res) {
             });
         });
     })
+});
+
+app.post('/add_new_chimera', function(req, res) {
+    let data = req.body;
+
+    let labNotebookID = parseInt(data.labNotebookID);
+    if (isNaN(labNotebookID)) {
+        labNotebookID = 'NULL'
+    };
+
+    let mitoGeneID = parseInt(data.mitoGeneID);
+    if (isNaN(mitoGeneID)) {
+        mitoGeneID = 'NULL'
+    };
+
+    let vectorID = parseInt(data.vectorID);
+    if (isNaN(vectorID)) {
+        vectorID = 'NULL'
+    };
+
+    let u_query = `INSERT INTO Chimeras (LabNotebookID, MitoGeneID, VectorID, ProviderName, DiseaseName)
+                    VALUES
+                    (${labNotebookID},${mitoGeneID},${vectorID},'${data.providerName}','${data.diseaseName}')`;
+    db.pool.query(u_query, function(error, rows, fields) {
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            res.redirect('/chimeras')
+        }
+    });
 });
 
 app.get('/genes', function(req, res) {

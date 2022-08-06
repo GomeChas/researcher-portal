@@ -30,13 +30,13 @@
 </table>
 </div>
     <h3>Add New Chimera</h3>
-    <form id="add_new_chimera">
+    <form id="add_new_chimera" method="POST" action="add_new_chimera">
         <fieldset>
             <legend>Lab Notebook Details</legend>
             <label for="labNotebookID">Select Lab Notebook:</label>
             <select name="labNotebookID" id="labNotebookID">
                 <option value="">--Please choose an option--</option>
-                <option value=NULL>Unknown</option>
+                <option value="">Unknown</option>
                 {{#each fetch.data_2}}
                     <option value="{{this.LabNotebookID}}">{{this.SpecialProjectName}}</option>
                 {{/each}}
