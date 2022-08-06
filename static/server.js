@@ -244,7 +244,7 @@ app.delete('/delete-researcher/', function(req,res,next){
               }
   })});
 
-  app.get('/chimeras', function(req, res) {
+app.get('/chimeras', function(req, res) {
     let r_query = `SELECT
                     LN.LabNotebookID,
                     COALESCE(LN.SpecialProjectName, 'N/A') AS SpecialProjectName,
@@ -260,8 +260,10 @@ app.delete('/delete-researcher/', function(req,res,next){
                         INNER JOIN Vectors V
                             ON V.VectorID = C.VectorID
                         LEFT JOIN LabNotebooks LN
-                            ON LN.LabNotebookID = C.LabNotebookID;`;
+                            ON LN.LabNotebookID = C.LabNotebookID
+                    ORDER BY SpecialProjectName ASC;`;
     let l_selection_query = `SELECT DISTINCT
+                                LabNotebookID,
                                 SpecialProjectName
                             FROM LabNotebooks`;
     let m_selection_query = `SELECT * FROM MitoGenes;`;
@@ -279,10 +281,10 @@ app.delete('/delete-researcher/', function(req,res,next){
 
 app.post('/add_new_chimera', function(req, res) {
     let data = req.body;
-
-    let labNotebookID = parseInt(data.labNotebookID);
-    if (isNaN(labNotebookID)) {
-        labNotebookID = 'NULL'
+    console.log(data);
+    let LabNotebookID = parseInt(data.LabNotebookID);
+    if (isNaN(LabNotebookID)) {
+        LabNotebookID = 'NULL'
     };
 
     let mitoGeneID = parseInt(data.mitoGeneID);
@@ -294,10 +296,11 @@ app.post('/add_new_chimera', function(req, res) {
     if (isNaN(vectorID)) {
         vectorID = 'NULL'
     };
+    console.log(LabNotebookID,mitoGeneID,vectorID,data.providerName,data.diseaseName)
 
     let u_query = `INSERT INTO Chimeras (LabNotebookID, MitoGeneID, VectorID, ProviderName, DiseaseName)
                     VALUES
-                    (${labNotebookID},${mitoGeneID},${vectorID},'${data.providerName}','${data.diseaseName}')`;
+                    (${LabNotebookID},${mitoGeneID},${vectorID},'${data.providerName}','${data.diseaseName}')`;
     db.pool.query(u_query, function(error, rows, fields) {
         if (error) {
             console.log(error)
