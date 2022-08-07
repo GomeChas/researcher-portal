@@ -11,7 +11,7 @@ CREATE OR REPLACE TABLE Researchers (
 
 CREATE OR REPLACE TABLE MitoGenes (
     MitoGeneID int NOT NULL AUTO_INCREMENT,
-    HgncID int,
+    HgncID int NOT NULL,
     HgncSymbol varchar(10),
     HgncName varchar(100),
     NCBIGeneID int NOT NULL,
@@ -21,7 +21,7 @@ CREATE OR REPLACE TABLE MitoGenes (
 
 CREATE OR REPLACE TABLE AntiBacterials (
     AntiBacterialID int NOT NULL AUTO_INCREMENT,
-    AntiBacterialName varchar(50),
+    AntiBacterialName varchar(50) NOT NULL,
     PRIMARY KEY (AntiBacterialID)
 );
 

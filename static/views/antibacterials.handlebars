@@ -3,7 +3,7 @@
 <div>
     <h2>MyT Codon Antibacterial Selection:</h2>
 </div>
-
+{{!-- Create a table --}}
 <table id="antibacterial-table">
 
     {{!-- Table header section --}}
@@ -15,8 +15,10 @@
 
     {{!-- Table body section --}}
     <tbody>
+
+        {{!-- For each row, print the ResearcherID, FirstName, LastName, and Credential, in order --}}
         {{#each data}}
-        <tr data-value="{{this.AntiBacterialID}}">
+        <tr>
             <td>{{this.AntiBacterialName}}</td>
         </tr>
         {{/each}}
@@ -24,15 +26,17 @@
 </table>
 
 <h3>Add New Antibactrial Agent</h3>
-<form id='add_new_antibacterial'>
-    <section>
-        <label for="AntiBacterialName">AntiBacterial:</label>
-        <input type="text" id="AntiBacterialName" name="AntiBacterialName" required
-            minlength="2" maxlength="50" size="10">
-    </section>
-    <div>
-        <input type="submit" value="Add AntiBacterial">
-    </div>
-</form>
+<div>
+    <form id='add_new_antibacterial'>
+        <section>
+            <label for="AntiBacterialName">AntiBacterial:</label>
+            <input type="text" id="AntiBacterialName" name="AntiBacterialName" required
+                minlength="2" maxlength="50" size="10">
+        </section>
+        <div>
+            <input type="submit" value="Add AntiBacterial">
+        </div>
+    </form>
+</div>
 
 <script src="./js/add_antibacterial.js"></script>

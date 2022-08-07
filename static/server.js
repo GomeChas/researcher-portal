@@ -340,9 +340,24 @@ app.get('/genes', function(req, res) {
 app.post('/add_new_gene', function(req, res) {
     let data = req.body;
 
+    let HgncSymbol = data.HgncSymbol;
+    if(typeof(HgncSymbol) == 'undefined') {
+        HgncSymbol = 'NULL'
+    };
+
+    let HgncName = data.HgncName;
+    if(typeof(HgncName) == 'undefined') {
+        HgncName = 'NULL'
+    };
+
+    let UniProtID = data.UniProtID;
+    if(typeof(UniProtID) == 'undefined') {
+        UniProtID = 'NULL'
+    };
+
     let u_query = `INSERT INTO MitoGenes (HgncID, HgncSymbol, HgncName, NCBIGeneID, UniProtID)
                     VALUES
-                    (${data.HgncID},'${data.HgncSymbol}','${data.HgncName}',${data.NCBIGeneID},'${data.UniProtID}')`;
+                    (${data.HgncID},'${HgncSymbol}','${HgncName}',${data.NCBIGeneID},'${UniProtID}')`;
     db.pool.query(u_query, function(error, rows, fields) {
 
         if (error) {
@@ -353,9 +368,9 @@ app.post('/add_new_gene', function(req, res) {
             let r_query = `SELECT
                             MitoGeneID,
                             HgncID,
-                            HgncSymbol,
-                            HgncName,
-                            COALESCE(NCBIGeneID, 'N/A') AS NCBIGeneID,
+                            COALESCE(HgncSymbol, 'N/A') AS HgncSymbol,
+                            COALESCE(HgncName, 'N/A') AS HgncName,
+                            NCBIGeneID,
                             COALESCE(UniProtID, 'N/A') AS UniProtID
                             FROM MitoGenes;`;
             db.pool.query(r_query, function(error, rows, fields) {
@@ -380,7 +395,7 @@ app.get('/vectors', function(req, res) {
                     VectorSize, 
                     RECutSites 
                     FROM Vectors V 
-                        INNER JOIN AntiBacterials AB 
+                        LEFT JOIN AntiBacterials AB 
                             ON AB.AntiBacterialID = V.AntiBacterialID;`;
     let selection_query = 'SELECT * FROM AntiBacterials;';
     db.pool.query(r_query, function(errors, rows, fields) {
