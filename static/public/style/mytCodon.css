@@ -61,6 +61,14 @@ th, td {
 	vertical-align: middle;
 }
 
+footer {
+	position: fixed;
+	font-size: small;
+	font-weight: lighter;
+	bottom: 5px;
+	right: 5px;
+}
+
 nav {
 	margin:0;
 	padding:0;
