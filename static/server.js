@@ -404,17 +404,20 @@ app.post('/add_new_vector', function(req, res) {
     };
 
     let inputRECutSites = data.reCutSite;
-    console.log(inputRECutSites)
     let RECutSitesValue = '';
-    for (let i = 0; i < inputRECutSites.length; i++) {
-        if (RECutSitesValue.length == 0) {
-            let newRECutSite = inputRECutSites[i]
-            RECutSitesValue += newRECutSite;
-        }
-        else {
-            let newRECutSite = inputRECutSites[i]
-            RECutSitesValue += `, ${newRECutSite}`;
-        }
+    if(typeof(inputRECutSites) == 'undefined') {
+        RECutSitesValue = 'NULL'
+    }
+    else { for (let i = 0; i < inputRECutSites.length; i++) {
+            if (RECutSitesValue.length == 0) {
+                let newRECutSite = inputRECutSites[i]
+                RECutSitesValue += newRECutSite;
+            }
+            else {
+                let newRECutSite = inputRECutSites[i]
+                RECutSitesValue += `, ${newRECutSite}`;
+            }
+        };
     };
 
     let u_query = `INSERT INTO Vectors (ProductName, AntiBacterialID, VectorSize, RECutSites)
