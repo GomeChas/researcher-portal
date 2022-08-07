@@ -1,7 +1,7 @@
 <!-- vectors.hbs-->
-
+<br>
 <div>
-    <h2>Vectors used in the development of chimeraplastic therapeutics:</h2>
+    <h2>Chimeraplastic Therapeutic Vectors:</h2>
 </div>
 
 <table id="vector-table">
@@ -34,8 +34,9 @@
     <h3>Add New Vector</h3>
     <form id="add_new_vector" method="POST" action="/add_new_vector">
         <fieldset>
+            <legend>Vector Information</legend>
             <section>
-                <label for="productName">Product Name:</label>
+                <label for="productName">Product Name (required):</label>
                 <input type="text" id="productName" name="productName" 
                     minlength="2" maxlength="50" size="10" required >
             </section>

@@ -1,10 +1,10 @@
 <!-- labnotebooks.hbs -->
 <div>
-    <h2>MyT Codon Lab Notebooks / Project Staff</h2>
+    <h2>Project Lab Notebooks</h2>
 </div>
 <div>
     <form id="table_filter" method="GET" action="/labnotebooks">
-        <label for="filterProjects">Filter by Projects:</label>
+        <label for="filterProjects" style="font-weight: bold" >Filter Projects by Mitchondrial Gene Target:</label>
             <select name="filterProjects" id="filterProjects">
                 <option value=""></option>
                 {{#each fetch.genes}}
@@ -13,10 +13,10 @@
             </select>
             <input type="submit" value="Go">
     </form>
-    <a href="/labnotebooks"><button>Reset</button></a>
+    <a href="/labnotebooks"><button>Clear Filter</button></a>
 </div>
 <div>
-<h3>Lab Notebooks:</h3>
+<h3>Project Lab Notebooks:</h3>
     <table id="labnotebooks-table">
         {{!-- Table header section --}}
         <thead>
@@ -49,8 +49,8 @@
     <h3>Add New Lab Notebook</h3>
     <form id="add_new_labnotebook" method="POST" action="/add_new_labnotebook">
     <fieldset>
-        <legend>All Lab Notebooks must have assigned Project Staff</legend>
-        <label for="newProjectPI">Who will be the PI?</label>
+        <legend>All Lab Notebooks must have a Primary Investigator (PI)</legend>
+        <label for="newProjectPI">Project PI:</label>
         <select name="newProjectPI" id="newProjectPI">
             <option value="">--Please choose an option--</option>
             {{#each fetch.researchers}}
@@ -59,19 +59,19 @@
         </select>
     </fieldset>
     <fieldset>
-        <legend>Special Project Name:</legend>
-    <div>
-        <input type="text" id="specialProjectName" name="specialProjectName"
-            minlength="2" maxlength="50" size="10" required> 
-    </div>
-    </fieldset>
-    <fieldset>
-        <legend>Project Completion Status:</legend>
-        <label for="transfectionComplete">Is transfection complete?</label>
-        <select name="transfectionComplete" id="transfectionComplete">
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select>
+        <legend>Special Project Information:</legend>
+        <div>
+            <label for="specialProjectName">Special Project Name (required):</label>
+                <input type="text" id="specialProjectName" name="specialProjectName"
+                    minlength="2" maxlength="50" size="10" required> 
+        </div>
+        <div>
+            <label for="transfectionComplete">Is transfection complete?</label>
+            <select name="transfectionComplete" id="transfectionComplete">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
     </fieldset>
     <fieldset>
         <legend>Storage Information</legend>
@@ -92,6 +92,8 @@
         </div>
     </form>
 </div>
+<h5>* Creation date is based on the additon of a new lab notebook
+    <br>** Completion date is based on transfection being complete</h5>
 <div>
     <h3>Project Staff</h3>
     <table id="projectStaff-table">

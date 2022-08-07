@@ -1,6 +1,7 @@
 <!-- genes.hbs-->
+<br>
 <div>
-    <h2>Mitochondrial genes used in chimeraplastic therapeutics:</h2>
+    <h2>Mitochondrial Gene Targets:</h2>
 </div>
 
 <table id="gene-table">
@@ -33,10 +34,11 @@
 
 <div>
     <h3>Add New MitoGene</h3>
+    <h4>NOTE: To look up additonal genes, please use resources listed below</h4>
     <form id="add_new_gene" method="POST" action="/add_new_gene">
         <fieldset>
             <section>
-                <label for="hgnc_id">HGNC ID:</label>
+                <label for="hgnc_id">HGNC ID (required):</label>
                 <input type="number" id="hgnc_id" name="hgnc_id"
                     min="100" max="10000" required >
             </section>
@@ -52,7 +54,7 @@
                 </textarea>
             </section>
             <section>
-                <label for="ncbi_id">NCBI ID:</label>
+                <label for="ncbi_id">NCBI ID (required):</label>
                 <input type="number" id="ncbi_id" name="ncbi_id"
                     min="100" max="10000" required>
             </section>

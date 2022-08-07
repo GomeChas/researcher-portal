@@ -1,6 +1,6 @@
 <!-- researchers.hbs -->
 <div>
-    <h2>MyT Codon Researchers:</h2>
+    <h2>Researchers:</h2>
 </div>
 {{!-- Create a table --}}
 <table id="researchers-table">
@@ -35,13 +35,14 @@
 <h3>Add New Researcher</h3>
 <form id="add_new_researcher" method="POST" action="/add_new_researcher">
     <fieldset>
+        <legend>Researcher Information</legend>
         <section>
-            <label for="FirstName">First Name:</label>
+            <label for="FirstName">First Name (required):</label>
             <input type="text" id="FirstName" name="FirstName" required
                 minlength="2" maxlength="50" size="10">
         </section>
         <section>
-            <label for="LastName">Last Name:</label>
+            <label for="LastName">Last Name (required):</label>
             <input type="text" id="LastName" name="LastName" required
                 minlength="2" maxlength="50" size="10">
         </section>

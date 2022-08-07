@@ -13,8 +13,19 @@ body {
 }
 
 p {
+	display: flex;
+	width: 70%;
+	align-items: center;
+    font-size: 1.17em;
+    font-weight: bold;
 	color: whitesmoke;
-	font-style: bold;
+}
+
+legend {
+    margin-top: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
 }
 
 label {
@@ -22,14 +33,11 @@ label {
 	vertical-align: top;
 }
 
-#tableFilter {
+#filterProjects {
 	background-position: 10px 12px;
 	background-repeat: no-repeat;
-	width: 50%;
-	font-size: 12px;
-	padding: 12px 20px 12px 40px;
+	font-weight: bold;
 	border: 1px solid whitesmoke;
-	margin-bottom: 12px;
 }
 
 table { 
