@@ -373,9 +373,9 @@ app.get('/vectors', function(req, res) {
                     V.VectorID,
                     V.ProductName, 
                     V.AntiBacterialID,
-                    AB.AntiBacterialName, 
-                    VectorSize, 
-                    RECutSites 
+                    COALESCE(AB.AntiBacterialName, 'N/A') AS AntiBacterialName,
+                    COALESCE(VectorSize, 'N/A') AS VectorSize,
+                    COALESCE(RECutSites, 'N/A') AS RECutSites
                     FROM Vectors V 
                         LEFT JOIN AntiBacterials AB 
                             ON AB.AntiBacterialID = V.AntiBacterialID;`;
@@ -401,14 +401,14 @@ app.post('/add_new_vector', function(req, res) {
     };
 
     let inputRECutSites = data.reCutSite;
-    let RECutSitesValue = '';
+    let RECutSitesValue;
     if(typeof(inputRECutSites) == 'undefined') {
-        RECutSitesValue = 'NULL'
+        RECutSitesValue = 'N/A'
     }
     else { for (let i = 0; i < inputRECutSites.length; i++) {
-            if (RECutSitesValue.length == 0) {
+            if (typeof(RECutSitesValue) == 'undefined') {
                 let newRECutSite = inputRECutSites[i]
-                RECutSitesValue += newRECutSite;
+                RECutSitesValue = newRECutSite;
             }
             else {
                 let newRECutSite = inputRECutSites[i]
