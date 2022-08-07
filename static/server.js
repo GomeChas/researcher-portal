@@ -292,7 +292,7 @@ app.get('/chimeras', function(req, res) {
 
 app.post('/add_new_chimera', function(req, res) {
     let data = req.body;
-    console.log(data);
+
     let LabNotebookID = parseInt(data.LabNotebookID);
     if (isNaN(LabNotebookID)) {
         LabNotebookID = 'NULL'
@@ -307,7 +307,6 @@ app.post('/add_new_chimera', function(req, res) {
     if (isNaN(vectorID)) {
         vectorID = 'NULL'
     };
-    console.log(LabNotebookID,mitoGeneID,vectorID,data.providerName,data.diseaseName)
 
     let u_query = `INSERT INTO Chimeras (LabNotebookID, MitoGeneID, VectorID, ProviderName, DiseaseName)
                     VALUES
@@ -327,9 +326,9 @@ app.get('/genes', function(req, res) {
     let r_query = `SELECT
                     MitoGeneID,
                     HgncID,
-                    HgncSymbol,
-                    HgncName,
-                    COALESCE(NCBIGeneID, 'N/A') AS NCBIGeneID,
+                    COALESCE(HgncSymbol, 'N/A') AS HgncSymbol,
+                    COALESCE(HgncName, 'N/A') AS HgncName,
+                    NCBIGeneID,
                     COALESCE(UniProtID, 'N/A') AS UniProtID
                     FROM MitoGenes;`;
     db.pool.query(r_query, function(errors, rows, fields) {
@@ -340,50 +339,33 @@ app.get('/genes', function(req, res) {
 app.post('/add_new_gene', function(req, res) {
     let data = req.body;
 
-    let HgncSymbol = data.HgncSymbol;
-    if(typeof(HgncSymbol) == 'undefined') {
+    let HgncSymbol = data.hgnc_symbol;
+    if(HgncSymbol.length == 0) {
         HgncSymbol = 'NULL'
     };
 
-    let HgncName = data.HgncName;
-    if(typeof(HgncName) == 'undefined') {
+    let HgncName = data.hgnc_name;
+    if(HgncName.length == 0) {
         HgncName = 'NULL'
     };
 
-    let UniProtID = data.UniProtID;
-    if(typeof(UniProtID) == 'undefined') {
+    let UniProtID = data.uniprot_id;
+    if(UniProtID.length == 0) {
         UniProtID = 'NULL'
     };
 
     let u_query = `INSERT INTO MitoGenes (HgncID, HgncSymbol, HgncName, NCBIGeneID, UniProtID)
                     VALUES
-                    (${data.HgncID},'${HgncSymbol}','${HgncName}',${data.NCBIGeneID},'${UniProtID}')`;
+                    (${data.hgnc_id},'${HgncSymbol}','${HgncName}',${data.ncbi_id},'${UniProtID}')`;
     db.pool.query(u_query, function(error, rows, fields) {
-
         if (error) {
-            console.log(error)
-            res.sendStatus(400);
+        console.log(error)
+        res.sendStatus(400);
         }
         else {
-            let r_query = `SELECT
-                            MitoGeneID,
-                            HgncID,
-                            COALESCE(HgncSymbol, 'N/A') AS HgncSymbol,
-                            COALESCE(HgncName, 'N/A') AS HgncName,
-                            NCBIGeneID,
-                            COALESCE(UniProtID, 'N/A') AS UniProtID
-                            FROM MitoGenes;`;
-            db.pool.query(r_query, function(error, rows, fields) {
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                else {
-                    res.send(data);
-                }
-            })
+            res.redirect('/genes');
         }
-    })
+    });
 });
 
 app.get('/vectors', function(req, res) {
