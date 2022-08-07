@@ -128,6 +128,24 @@ app.post('/add_new_labnotebook', function(req, res) {
     });
 });
 
+app.delete('/remove_project_staff/', function(req,res,next){
+    let data = req.body;
+
+    let researcherID = parseInt(data.ResearcherID);
+    let labNotebookID = parseInt(data.LabNotebookID);
+    let deleteProjectStaff = `DELETE FROM ProjectStaff WHERE ResearcherID = ? AND LabNotebookID = ?`;
+
+        db.pool.query(deleteProjectStaff, [researcherID, labNotebookID], function(error, rows, fields){
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            }
+            else {
+                res.sendStatus(204);
+            }
+        });
+});
+
 app.post('/add_staff_to_project', function(req, res) {
     let data = req.body;
 

@@ -110,7 +110,7 @@
             <tr data-value="{{this.ProjectStaffID}}">
                 <td>{{this.SpecialProjectName}}</td>
                 <td>{{this.FullName}}</td>
-                <td><button onclick='removeResearcher({{this.ProjectStaffID}})'>
+                <td><button onclick='remove_ProjectStaff({{this.ProjectStaffID}}, {{this.ResearcherID}}, {{this.LabNotebookID}})'>
                         <i class='fa-solid fa-trash'></i></button>
                 </td>
             </tr>
@@ -141,3 +141,4 @@
         </div>
     </fieldset>
 </div>
+<script src="./js/remove_project_staff.js"></script>
