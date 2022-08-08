@@ -61,31 +61,43 @@
     </div>
 </form>
 
-<h3>Update Credential</h3>
-<form id="update_researcher_form" onsubmit="return alert('Please refresh your page.')">
-    <fieldset>
-        <legend>Name</legend>
-        <label for="input-fullname">Full name: </label>
-        <select name="input-fullname" id="selectResearcherUpdate">
-            <option value="default">--Please choose an option--</option>
-            {{#each data}}
-            <option value="{{this.ResearcherID}}">{{this.FirstName}} {{this.LastName}}</option>
-            {{/each}}
-        </select>
-    </fieldset>
-    <fieldset>
-        <legend>Active Credentials</legend>
-            <div>
-            <label for="Credential">Active credential?</label>
-            <select name="Credential" id="updateCredential">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+<h3>Update Researcher</h3>
+<h4>Use the following fields to update an existing Researcher.</h4>
+    <form id="update_researcher" method="POST" action="/update_researcher">
+        <fieldset>
+            <legend>Researcher</legend>
+            <label for="input-researcherid">Select the Researcher to update by ID: </label>
+            <select name="input-researcherid" id="selectResearcherUpdate" required>
+                <option value="">--Please choose an option--</option>
+                {{#each data}}
+                    <option value="{{this.ResearcherID}}">{{this.ResearcherID}} - {{this.FirstName}} {{this.LastName}}</option>
+                {{/each}}
             </select>
+        </fieldset>
+        <fieldset>
+            <legend>Researcher Information</legend>
+                <section>
+                <label for="input-update-firstname">New First Name (required):</label>
+                    <input type="text" id="input-update-firstname" name="input-update-firstname" required minlength="2" maxlength="50" size="10">
+                    </section>
+                <section>
+                    <label for="input-update-lastname">New Last Name (required):</label>
+                    <input type="text" id="input-update-firstname" name="input-update-lastname" required minlength="2" maxlength="50" size="10">
+                </section>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Active Credentials</legend>
+                <div>
+                    <label for="Credential">Active credential? (required)</label>
+                    <select name="Credential" id="updateCredential" required>
+                        <option value="">--Please choose an option--</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+        </fieldset>
+        <div>
+            <input type="submit" value="Update Researcher">
         </div>
-    </fieldset>
-    <div>
-        <input type="submit" value="Update Researcher">
-    </div>
-</form>
-
-<script src="./js/update_researcher.js"></script>
+    </form>

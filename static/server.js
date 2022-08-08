@@ -108,17 +108,27 @@ app.post('/add_new_labnotebook', function(req, res) {
 
     let u1_query;
     let CompletionDate = parseInt(data.transfectionComplete);
-    let FreezerBoxLoc = data.fBLocPre + '-' + data.fBLocSuf;
+    let storageFreezer = data.storageFreezer;
+    if (data.storageFreezer < 1) {
+        storageFreezer = 'NULL'
+    } else {
+        storageFreezer = `'${storageFreezer}'`
+    }
+
+    let freezerBoxLoc = 'NULL';
+    if (data.fBLocPre !== '' && data.fBLocSuf !== '') {
+        freezerBoxLoc = "'" + data.fBLocPre + '-' + data.fBLocSuf + "'";
+    }
 
     if (CompletionDate == 1) {
         u1_query = `INSERT INTO LabNotebooks (SpecialProjectName, CreationDate, TransfectionComplete, CompletionDate, StorageFreezer, FreezerBoxLoc)
                     VALUES
-                    ('${data.specialProjectName}', NOW(), ${data.transfectionComplete}, NOW(), '${data.storageFreezer}', '${FreezerBoxLoc}')`;
+                    ('${data.specialProjectName}', NOW(), ${data.transfectionComplete}, NOW(), ${storageFreezer}, ${freezerBoxLoc})`;
     }
     else {
         u1_query = `INSERT INTO LabNotebooks (SpecialProjectName, CreationDate, TransfectionComplete, CompletionDate, StorageFreezer, FreezerBoxLoc)
                     VALUES
-                    ('${data.specialProjectName}', NOW(), ${data.transfectionComplete}, NULL, '${data.storageFreezer}', '${FreezerBoxLoc}')`;
+                    ('${data.specialProjectName}', NOW(), ${data.transfectionComplete}, NULL, ${storageFreezer}, ${freezerBoxLoc})`;
     };
 
     let u2_query = `INSERT INTO ProjectStaff (ResearcherID, LabNotebookID)
@@ -207,31 +217,22 @@ app.post('/add_new_researcher', function(req, res) {
     });
 });
 
-app.put('/put-researcher', function(req,res,next){
+app.post('/update_researcher', function(req, res) {
     let data = req.body;
   
-    let credential = parseInt(data.credential);
-    let researcher = parseInt(data.researcherId);
-  
-    let queryUpdateCredential = `UPDATE Researchers SET Credential = ? WHERE ResearcherID = ?`;
-    let selectResearcher = `SELECT * FROM Researchers WHERE ResearcherID = ?`
-    
-          db.pool.query(queryUpdateCredential, [credential, researcher], function(error, rows, fields){
-            if (error) {
-            console.log(error);
-            res.sendStatus(400);
-            }
-            else {
-                db.pool.query(selectResearcher, [researcher], function(error, rows, fields) {
+    let researcherId = data['input-researcherid'];
+    let firstName = data['input-update-firstname'];
+    let lastName = data['input-update-lastname'];
+    let credential = data['Credential'];
 
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } 
-                else {
-                    res.send(data);
-                }
-            });
+    let u_query = `UPDATE Researchers SET FirstName = ?, LastName = ?, Credential = ? WHERE ResearcherID = ?`
+    db.pool.query(u_query, [firstName, lastName, credential, researcherId], function(error, rows, fields) {
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            res.redirect('/researchers')
         }
     });
 });
@@ -243,20 +244,14 @@ app.delete('/delete-researcher/', function(req,res,next){
     let deleteProjectStaff = `DELETE FROM ProjectStaff WHERE ResearcherID = ?`;
     let deleteResearchers= `DELETE FROM Researchers WHERE ResearcherID = ?`;
   
-          // Run the 1st query
           db.pool.query(deleteProjectStaff, [researcherID], function(error, rows, fields){
               if (error) {
-  
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
               console.log(error);
               res.sendStatus(400);
               }
-  
               else
               {
-                  // Run the second query
                   db.pool.query(deleteResearchers, [researcherID], function(error, rows, fields) {
-  
                       if (error) {
                           console.log(error);
                           res.sendStatus(400);
@@ -269,14 +264,15 @@ app.delete('/delete-researcher/', function(req,res,next){
 
 app.get('/chimeras', function(req, res) {
     let r_query = `SELECT
+                    C.ChimeraID,
                     LN.LabNotebookID,
                     COALESCE(LN.SpecialProjectName, 'N/A') AS SpecialProjectName,
                     MG.MitoGeneID,
-                    MG.HgncSymbol,
+                    COALESCE(MG.HgncSymbol, 'N/A') AS HgncSymbol,
                     V.VectorID,
-                    V.ProductName,
-                    ProviderName,
-                    DiseaseName
+                    COALESCE(V.ProductName, 'N/A') AS ProductName,
+                    COALESCE(ProviderName, 'N/A') AS ProviderName,
+                    COALESCE(DiseaseName, 'N/A') AS DiseaseName
                     FROM Chimeras C
                         INNER JOIN MitoGenes MG
                             ON MG.MitoGeneID = C.MitoGeneID
@@ -334,6 +330,28 @@ app.post('/add_new_chimera', function(req, res) {
     });
 });
 
+app.post('/update_chimera', function(req, res) {
+    let data = req.body;
+
+    let chimeraId = data['input-chimeraid'];
+    let labNotebookId = data['input-labnotebookid'];
+
+    if (labNotebookId === "none") {
+        labNotebookId = 'NULL'
+    }
+
+    let u_query = `UPDATE Chimeras SET Chimeras.LabNotebookID = ${labNotebookId} WHERE ChimeraID = ${chimeraId}`
+    db.pool.query(u_query, function(error, rows, fields) {
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            res.redirect('/chimeras')
+        }
+    });
+});
+
 app.get('/genes', function(req, res) {
     let r_query = `SELECT
                     MitoGeneID,
@@ -352,23 +370,41 @@ app.post('/add_new_gene', function(req, res) {
     let data = req.body;
 
     let HgncSymbol = data.hgnc_symbol;
+    let finalHgncSymbol = "\'\"";
+
     if(HgncSymbol.length == 0) {
-        HgncSymbol = 'NULL'
+        finalHgncSymbol = 'NULL'
+    }
+    else {     
+        finalHgncSymbol += HgncSymbol
+        finalHgncSymbol += "\"\'"
     };
 
     let HgncName = data.hgnc_name;
+    let finalHgncName = "\'\"";
+
     if(HgncName.length == 0) {
-        HgncName = 'NULL'
+        finalHgncName = 'NULL'
+    }
+    else {
+        finalHgncName += HgncName
+        finalHgncName += "\"\'"
     };
 
     let UniProtID = data.uniprot_id;
+    let finalUniProtID = "\'\"";
+
     if(UniProtID.length == 0) {
-        UniProtID = 'NULL'
+        finalUniProtID = 'NULL'
+    }
+    else {
+        finalUniProtID += UniProtID
+        finalUniProtID += "\"\'"
     };
 
-    let u_query = `INSERT INTO MitoGenes (HgncID, HgncSymbol, HgncName, NCBIGeneID, UniProtID)
-                    VALUES
-                    (${data.hgnc_id},'${HgncSymbol}','${HgncName}',${data.ncbi_id},'${UniProtID}')`;
+    let u_query = `INSERT INTO MitoGenes (HgncID, HgncSymbol, HgncName, NCBIGeneID, UniProtID) 
+                    VALUES 
+                    (${data.hgnc_id},${finalHgncSymbol},${finalHgncName},${data.ncbi_id},${finalUniProtID})`;
     db.pool.query(u_query, function(error, rows, fields) {
         if (error) {
         console.log(error)
