@@ -39,7 +39,7 @@ CREATE OR REPLACE TABLE Vectors (
 
 CREATE OR REPLACE TABLE LabNotebooks (
     LabNotebookID int NOT NULL AUTO_INCREMENT,
-    SpecialProjectName varchar(100) UNIQUE,
+    SpecialProjectName varchar(100),
     CreationDate datetime NOT NULL,
     TransfectionComplete tinyint,
     CompletionDate datetime,

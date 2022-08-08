@@ -12,7 +12,6 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Active Credential</th>
-            <th>Remove</th>
         </tr>
     </thead>
 
@@ -26,13 +25,14 @@
             <td>{{this.FirstName}}</td>
             <td>{{this.LastName}}</td>
             <td>{{this.Credential}}</td>
-            <td><button onclick='deleteResearcher({{this.ResearcherID}})'><i class='fa-solid fa-trash'></i></button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
-<script src="./js/delete_researcher.js"></script>
+
+<div>
 <h3>Add New Researcher</h3>
+Use the following fields to add a new Researcher.
 <form id="add_new_researcher" method="POST" action="/add_new_researcher">
     <fieldset>
         <legend>Researcher Information</legend>
@@ -48,9 +48,11 @@
         </section>
     </fieldset>
     <fieldset>
+        <legend>Active Credentials</legend>
         <div>
-            <label for="Credential">Active credential?</label>
-            <select name="Credential" id="Credential">
+            <label for="Credential">Active credential? (required)</label>
+            <select name="Credential" id="Credential" required>
+                <option value="">--Please choose an option--</option>
                 <option value="1">Yes</option>
                 <option value="0">No</option>
             </select>
@@ -60,24 +62,39 @@
         <input type="submit" value="Add Researcher">
     </div>
 </form>
+</div>
 
-<h3>Update Credential</h3>
-<form id="update_researcher_form" onsubmit="return alert('Please refresh your page.')">
+<div>
+<h3>Update Researcher</h3>
+Use the following fields to update an existing Researcher.
+<form id="update_researcher" method="POST" action="/update_researcher">
     <fieldset>
-        <legend>Name</legend>
-        <label for="input-fullname">Full name: </label>
-        <select name="input-fullname" id="selectResearcherUpdate">
-            <option value="default">--Please choose an option--</option>
+        <legend>Researcher</legend>
+        <label for="input-researcherid">Select the Researcher to update by ID: </label>
+        <select name="input-researcherid" id="selectResearcherUpdate" required>
+            <option value="">--Please choose an option--</option>
             {{#each data}}
-            <option value="{{this.ResearcherID}}">{{this.FirstName}} {{this.LastName}}</option>
+            <option value="{{this.ResearcherID}}">{{this.ResearcherID}} - {{this.FirstName}} {{this.LastName}}</option>
             {{/each}}
         </select>
     </fieldset>
     <fieldset>
+        <legend>Name</legend>
+        <div>
+            <label for="input-update-firstname">New First Name (required):</label>
+            <input type="text" id="input-update-firstname" name="input-update-firstname" required minlength="2" maxlength="50" size="10">
+        </div>
+        <div>
+            <label for="input-update-lastname">New Last Name (required):</label>
+            <input type="text" id="input-update-firstname" name="input-update-lastname" required minlength="2" maxlength="50" size="10">
+        </div>
+    </fieldset>
+    <fieldset>
         <legend>Active Credentials</legend>
             <div>
-            <label for="Credential">Active credential?</label>
-            <select name="Credential" id="updateCredential">
+            <label for="Credential">Active credential? (required)</label>
+            <select name="Credential" id="updateCredential" required>
+                <option value="">--Please choose an option--</option>
                 <option value="1">Yes</option>
                 <option value="0">No</option>
             </select>
@@ -87,5 +104,24 @@
         <input type="submit" value="Update Researcher">
     </div>
 </form>
+</div>
 
-<script src="./js/update_researcher.js"></script>
+<div>
+<h3>Delete Researcher</h3>
+Use the following field to delete an existing Researcher.
+<form id="delete_researcher" method="POST" action="/delete_researcher" >
+    <fieldset>
+        <legend>Researcher</legend>
+        <label for="input-researcherid">Select the Researcher to delete by ID (required):</label>
+        <select name="input-researcherid" id="selectResearcherDelete" required>
+            <option value="">--Please choose an option--</option>
+            {{#each data}}
+            <option value="{{this.ResearcherID}}">{{this.ResearcherID}} - {{this.FirstName}} {{this.LastName}}</option>
+            {{/each}}
+        </select>
+    </fieldset>
+    <div>
+        <input type="submit" value="Delete Researcher">
+    </div>
+</form>
+</div>

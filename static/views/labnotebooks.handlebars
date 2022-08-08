@@ -51,7 +51,7 @@
     <fieldset>
         <legend>All Lab Notebooks must have a Primary Investigator (PI)</legend>
         <label for="newProjectPI">Project PI:</label>
-        <select name="newProjectPI" id="newProjectPI">
+        <select name="newProjectPI" id="newProjectPI" required>
             <option value="">--Please choose an option--</option>
             {{#each fetch.researchers}}
             <option value="{{this.ResearcherID}}">{{this.FullName}}</option>

@@ -29,53 +29,82 @@
         {{/each}}
     </tbody>
 </table>
-</div>
-    <h3>Add New Chimera</h3>
-    <form id="add_new_chimera" method="POST" action="add_new_chimera">
-        <fieldset>
-            <legend>Lab Notebook Details</legend>
-            <label for="LabNotebookID">Select Lab Notebook:</label>
-            <select name="LabNotebookID" id="LabNotebookID">
-                <option value="">--Please choose an option--</option>
-                {{#each fetch.data_2}}
-                    <option value="{{this.LabNotebookID}}">{{this.SpecialProjectName}}</option>
-                {{/each}}
-                <option value="NULL">Unknown</option>
-            </select>
-        </fieldset>
-        <fieldset>
-            <legend>Chimera Details</legend>
-            <div>
-                <label for="mitoGeneID">Select MitoGene:</label>
-                <select name="mitoGeneID" id="mitogeneID">
-                    <option value="">--Please choose an option--</option>
-                    {{#each fetch.data_3}}
-                        <option value="{{this.MitoGeneID}}">{{this.HgncSymbol}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div>
-                <label for="vectorID">Select Vector:</label>
-                <select name="vectorID" id="vectorID">
-                    <option value="">--Please choose an option--</option>
-                    {{#each fetch.data_4}}
-                        <option value="{{this.VectorID}}">{{this.ProductName}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div>
-                <label for="providerName">Provider Name:</label>
-                <input type="text" id="providerName" name="providerName"
-                    minlength="1" maxlength="100" size="10"> 
-            </div>
-            <div>
-                <label for="diseaseName">Disease Name:</label>
-                <input type="text" id="diseaseName" name="diseaseName"
-                    minlength="1" maxlength="255" size="10"> 
-            </div>
-        </fieldset>
+
+<h3>Add New Chimera</h3>
+Use the following fields to add a new Chimera.
+<form id="add_new_chimera" method="POST" action="add_new_chimera">
+    <fieldset>
+        <legend>Lab Notebook Details</legend>
+        <label for="LabNotebookID">Select Lab Notebook (required):</label>
+        <select name="LabNotebookID" id="LabNotebookID" required>
+            <option value="">--Please choose an option--</option>
+            <option value="NULL">None</option>
+            {{#each fetch.data_2}}
+                <option value="{{this.LabNotebookID}}">{{this.SpecialProjectName}}</option>
+            {{/each}}       
+        </select>
+    </fieldset>
+    <fieldset>
+        <legend>Chimera Details</legend>
         <div>
-            <input type="submit" value="Add Chimera">
+            <label for="mitoGeneID">Select MitoGene (required):</label>
+            <select name="mitoGeneID" id="mitogeneID" required>
+                <option value="">--Please choose an option--</option>
+                {{#each fetch.data_3}}
+                    <option value="{{this.MitoGeneID}}">{{this.HgncSymbol}}</option>
+                {{/each}}
+            </select>
         </div>
-    </form>
-</div>
+        <div>
+            <label for="vectorID">Select Vector (required):</label>
+            <select name="vectorID" id="vectorID" required>
+                <option value="">--Please choose an option--</option>
+                {{#each fetch.data_4}}
+                    <option value="{{this.VectorID}}">{{this.ProductName}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div>
+            <label for="providerName">Provider Name (required):</label>
+            <input type="text" id="providerName" name="providerName" required
+                minlength="1" maxlength="100" size="10"> 
+        </div>
+        <div>
+            <label for="diseaseName">Disease Name (required):</label>
+            <input type="text" id="diseaseName" name="diseaseName" required
+                minlength="1" maxlength="255" size="10"> 
+        </div>
+    </fieldset>
+    <div>
+        <input type="submit" value="Add Chimera">
+    </div>
+</form>
+
+<h3>Update Chimera Project</h3>
+Use the following fields to change an existing Chimera's associated project.
+<form id="update_chimera" method="POST" action="/update_chimera">
+    <fieldset>
+        <legend>Chimera</legend>
+        <label for="input-chimeraid">Select the Chimera to update by ID (required): </label>
+        <select name="input-chimeraid" id="selectChimeraUpdate" required>
+            <option value="">--Please choose an option--</option>
+            {{#each fetch.data}}
+            <option value="{{this.ChimeraID}}">{{this.ProviderName}} {{this.HgncSymbol}} {{this.ProductName}}</option>
+            {{/each}}
+        </select>
+    </fieldset>
+    <fieldset>
+        <legend>Project</legend>
+        <label for="input-labnotebookid">Select a new project to be associated with this Chimera (required):</label>
+        <select name="input-labnotebookid" id="input-labnotebookid" required>
+            <option value="">--Please choose an option--</option>
+            <option value="none">None</option>
+            {{#each fetch.data_2}}
+            <option value="{{this.LabNotebookID}}">{{this.SpecialProjectName}}</option>
+            {{/each}}
+        </select>
+    </fieldset>
+    <div>
+        <input type="submit" value="Update Chimera">
+    </div>
+</form>
