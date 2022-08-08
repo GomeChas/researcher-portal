@@ -105,10 +105,22 @@ app.get('/labnotebooks', function(req, res) {
 
 app.post('/add_new_labnotebook', function(req, res) {
     let data = req.body;
-    let FreezerBoxLoc = data.fBLocPre + '-' + data.fBLocSuf
-    let u1_query = `INSERT INTO LabNotebooks (SpecialProjectName, CreationDate, TransfectionComplete, CompletionDate, StorageFreezer, FreezerBoxLoc)
+
+    let u1_query;
+    let CompletionDate = parseInt(data.transfectionComplete);
+    let FreezerBoxLoc = data.fBLocPre + '-' + data.fBLocSuf;
+
+    if (CompletionDate == 1) {
+        u1_query = `INSERT INTO LabNotebooks (SpecialProjectName, CreationDate, TransfectionComplete, CompletionDate, StorageFreezer, FreezerBoxLoc)
+                    VALUES
+                    ('${data.specialProjectName}', NOW(), ${data.transfectionComplete}, NOW(), '${data.storageFreezer}', '${FreezerBoxLoc}')`;
+    }
+    else {
+        u1_query = `INSERT INTO LabNotebooks (SpecialProjectName, CreationDate, TransfectionComplete, CompletionDate, StorageFreezer, FreezerBoxLoc)
                     VALUES
                     ('${data.specialProjectName}', NOW(), ${data.transfectionComplete}, NULL, '${data.storageFreezer}', '${FreezerBoxLoc}')`;
+    };
+
     let u2_query = `INSERT INTO ProjectStaff (ResearcherID, LabNotebookID)
                     VALUES
                     (${data.newProjectPI}, (SELECT MAX(LabNotebookID) FROM LabNotebooks));`
