@@ -241,16 +241,9 @@ app.delete('/delete-researcher/', function(req,res,next){
     let data = req.body;
 
     let researcherID = parseInt(data.ResearcherID);
-    let deleteProjectStaff = `DELETE FROM ProjectStaff WHERE ResearcherID = ?`;
+
     let deleteResearchers= `DELETE FROM Researchers WHERE ResearcherID = ?`;
-  
-          db.pool.query(deleteProjectStaff, [researcherID], function(error, rows, fields){
-              if (error) {
-              console.log(error);
-              res.sendStatus(400);
-              }
-              else
-              {
+
                   db.pool.query(deleteResearchers, [researcherID], function(error, rows, fields) {
                       if (error) {
                           console.log(error);
@@ -259,8 +252,7 @@ app.delete('/delete-researcher/', function(req,res,next){
                           res.sendStatus(204);
                       }
                   })
-              }
-  })});
+              });
 
 app.get('/chimeras', function(req, res) {
     let r_query = `SELECT
